@@ -1,0 +1,17 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+
+@import './lib/nprogress';
+
+@import './_variables';
+@import './components/authnav';
+
+input:invalid {
+    box-shadow: none;
+}
