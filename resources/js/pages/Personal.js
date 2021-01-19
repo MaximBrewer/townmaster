@@ -29,7 +29,7 @@ export default function Personal() {
                 />
                 <div
                     className={
-                        `w-full bg-gray-100 pl-0 lg:pl-64 min-h-screen` +
+                        `w-full bg-gray-100 pl-0 lg:pl-80 min-h-screen` +
                         (sideBarOpen ? ` overlay` : ``)
                     }
                     id="main-content"
