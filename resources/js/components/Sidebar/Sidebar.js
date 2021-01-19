@@ -20,7 +20,7 @@ export default function Sidebar({ sideBarOpen }) {
     return (
         <div
             className={
-                `w-1/2 md:w-1/3 lg:w-80 fixed md:top-0 md:left-0 h-screen lg:block bg-gray-100 border-r z-30` +
+                `w-1/2 md:w-1/3 lg:w-84 fixed md:top-0 md:left-0 h-screen lg:block bg-gray-100 border-r z-30` +
                 (sideBarOpen ? `` : ` hidden`)
             }
             id="main-nav"
