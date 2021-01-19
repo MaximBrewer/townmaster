@@ -1,6 +1,5 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use TCG\Voyager\Facades\Voyager;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,9 +10,6 @@ use TCG\Voyager\Facades\Voyager;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});
 
 Route::get('/{uri?}', function () {
     return view('spa');

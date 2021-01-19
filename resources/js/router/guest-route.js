@@ -1,21 +1,12 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useAuth } from '../context/auth';
-import useDocumentTitle from '../components/document-title';
 
 function GuestRoute ({ component: Component, title, ...rest }) {
-  useDocumentTitle(title);
-
-  let { authenticated } = useAuth();
-
   return (
     <Route
       {...rest}
-      render={props => authenticated
-        ? <Redirect to={{ pathname: '/personal', state: { from: props.location } }} />
-        : <Component {...props} />
-      }
+      render={props => <Component {...props} />}
     />
   );
 };
