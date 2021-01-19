@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use  Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 
-class User extends Authenticatable implements JWTSubject
+class User extends \TCG\Voyager\Models\User implements JWTSubject
 {
     use Notifiable;
 
