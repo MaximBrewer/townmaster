@@ -6,7 +6,7 @@ import {getIntendedUrl} from '../../utils/auth';
 import useInputValue from '../../components/input-value';
 
 function Login () {
-  let {setCurrentUser, setToken} = useAuth();
+  let {setCurrentUser, setToken, currentUser} = useAuth();
   let history = useHistory();
   let email = useInputValue('email');
   let password = useInputValue('password');

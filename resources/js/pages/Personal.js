@@ -1,5 +1,6 @@
 import React, { setState, useState } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { useAuth } from "../context/auth";
 
 // components
 
@@ -14,12 +15,22 @@ import Dashboard from "./personal/Dashboard.js";
 import Maps from "./personal/Maps.js";
 import Settings from "./personal/Settings.js";
 import Tables from "./personal/Tables.js";
+import CompanyAdd from "./personal/CompanyAdd.js";
+import Companies from "./personal/Companies.js";
+import Tariff from "./personal/Tariff.js";
+import Profile from "./personal/Profile.js";
+import Support from "./personal/Support.js";
 
 export default function Personal() {
     const [sideBarOpen, setSideBarOpen] = useState(false);
+    let { setCurrentUser, setToken, currentUser } = useAuth();
     const toggleSideBar = () => {
         setSideBarOpen(prevState => !prevState);
     };
+    const [searchResult, setSearchResult] = useState({
+        search: false,
+        items: []
+    });
     return (
         <div className="leading-normal tracking-normal" id="main-body">
             <div className="flex flex-wrap">
@@ -29,7 +40,7 @@ export default function Personal() {
                 />
                 <div
                     className={
-                        `w-full bg-gray-100 pl-0 lg:pl-84 min-h-screen` +
+                        `flex  flex-col w-full bg-gray-100 pl-0 lg:pl-84 min-h-screen` +
                         (sideBarOpen ? ` overlay` : ``)
                     }
                     id="main-content"
@@ -37,33 +48,44 @@ export default function Personal() {
                     <Navbar
                         sideBarOpen={sideBarOpen}
                         toggleSideBar={toggleSideBar}
+                        setSearchResult={setSearchResult}
                     />
-                    <div className="p-6 bg-gray-100 mb-20">
+                    <div className="p-6 bg-gray-100 mb-20 flex flex-grow">
                         <Switch>
                             <Route
-                                path="/personal/dashboard"
+                                path="/personal/profile"
                                 exact
-                                component={Dashboard}
+                                component={Profile}
                             />
                             <Route
-                                path="/personal/maps"
+                                path="/personal/tariff"
                                 exact
-                                component={Maps}
+                                component={Tariff}
                             />
                             <Route
-                                path="/personal/settings"
+                                path="/personal/companies"
                                 exact
-                                component={Settings}
+                                component={Companies}
                             />
+                            <Route path="/personal/company-add" exact>
+                                <CompanyAdd searchResult={searchResult} setSearchResult={setSearchResult}/>
+                            </Route>
                             <Route
-                                path="/personal/tables"
+                                path="/personal/support"
                                 exact
-                                component={Tables}
+                                component={Support}
                             />
-                            <Redirect
-                                from="/personal"
-                                to="/personal/dashboard"
-                            />
+                            {currentUser ? (
+                                <Redirect
+                                    from="/personal"
+                                    to="/personal/company-add"
+                                />
+                            ) : (
+                                <Redirect
+                                    from="/personal"
+                                    to="/personal/companies"
+                                />
+                            )}
                         </Switch>
                     </div>
 

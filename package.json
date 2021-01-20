@@ -44,6 +44,7 @@
         "bootstrap": "^4.5.3",
         "chart.js": "^2.9.4",
         "laravel-mix-tailwind": "^0.1.0",
+        "react-autosuggest": "^10.1.0",
         "react-bootstrap": "^1.4.0",
         "react-google-maps": "^9.4.5"
     }

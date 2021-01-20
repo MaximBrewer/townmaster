@@ -59,4 +59,9 @@ class User extends \TCG\Voyager\Models\User implements JWTSubject
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
+    }
 }

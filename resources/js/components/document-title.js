@@ -2,7 +2,7 @@ let { useEffect } = require('react');
 
 function useDocumentTitle (title) {
   useEffect(() => {
-    document.title = title;
+    document.title = 'Таун Мастер';
   }, [title]);
 }
 
