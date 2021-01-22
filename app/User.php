@@ -64,4 +64,9 @@ class User extends \TCG\Voyager\Models\User implements JWTSubject
     {
         return $this->hasMany(Company::class);
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

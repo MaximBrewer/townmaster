@@ -21,6 +21,9 @@ export default function Personal() {
     const toggleSideBar = () => {
         setSideBarOpen(prevState => !prevState);
     };
+
+    const [company, setCompany] = useState(currentUser.company);
+
     const [searchResult, setSearchResult] = useState({
         search: false,
         items: [],
@@ -65,6 +68,8 @@ export default function Personal() {
                                 <CompanyAdd
                                     searchResult={searchResult}
                                     setSearchResult={setSearchResult}
+                                    company={company}
+                                    setCompany={setCompany}
                                 />
                             </Route>
                             <Route

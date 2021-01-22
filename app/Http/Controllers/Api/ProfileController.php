@@ -47,9 +47,9 @@ class ProfileController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $request->user()->update([
-            'name' => $request->name
-        ]);
+        $request->user()->fill([
+            'password' => Hash::make($request->password)
+        ])->save();
 
         return (new UserResource($request->user()));
     }

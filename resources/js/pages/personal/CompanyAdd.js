@@ -158,9 +158,13 @@ import { ArrowUp as ArrowUpIcon } from "../../Icons";
 //       "employee_count": null
 //     }
 //   }
-export default function CompanyAdd({ searchResult, setSearchResult }) {
+export default function CompanyAdd({
+    searchResult,
+    setSearchResult,
+    company,
+    setCompany
+}) {
     const [showFrom, setShowForm] = useState(false);
-    const [company, setCompany] = useState({});
 
     const openClearForm = () => {
         setSearchResult({
@@ -168,7 +172,7 @@ export default function CompanyAdd({ searchResult, setSearchResult }) {
             search: false,
             items: []
         });
-        setCompany({});
+        setCompany(null);
         setShowForm(true);
     };
 
@@ -204,6 +208,7 @@ export default function CompanyAdd({ searchResult, setSearchResult }) {
                                                     search: false,
                                                     items: []
                                                 });
+                                                console.log(item.data)
                                                 setCompany(item.data);
                                                 setShowForm(true);
                                             }}
@@ -262,7 +267,7 @@ export default function CompanyAdd({ searchResult, setSearchResult }) {
                     </div>
                 </React.Fragment>
             ) : showFrom ? (
-                <CardCompany company={company} />
+                <CardCompany company={company} company={company} setCompany={setCompany}/>
             ) : (
                 <div className="flex">
                     <div className="mr-4 w-16">

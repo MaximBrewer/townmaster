@@ -1,360 +1,475 @@
+import { useScrollTrigger } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../../context/auth";
+import useInputValue from "../../components/input-value";
+import client from "../../api/client";
+
 import Select from "react-select";
+
 // components
 
 export default function CardCompany({ company, setCompany }) {
-    const [errors, setErrors] = useState({});
-    const handleSubmit = () => {
-        console.log(company);
+    let { setCurrentUser, setToken, currentUser } = useAuth();
+
+    let title = useInputValue("title", company ? company.name.short_with_opf : "");
+    let fulltitle = useInputValue(
+        "fulltitle",
+        company ? company.name.full_with_opf : ""
+    );
+    let inn = useInputValue("inn", company ? company.inn : "");
+    let kpp = useInputValue("kpp", company ? company.kpp : "");
+    let ogrn = useInputValue("ogrn", company ? company.ogrn : "");
+    let guiv = useInputValue("guiv", company ? company.guiv : "");
+    let okved = useInputValue("okved", company ? company.okved : "");
+    let phone = useInputValue("phone", company ? company.phone : "");
+    let fax = useInputValue("fax", company ? company.fax : "");
+    let email = useInputValue("email", company ? company.email : "");
+    let address = useInputValue("address", company ? company.address.unrestricted_value : "");
+
+    const [showAlert, setShowAlert] = useState(false);
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        licensies = [];
+
+        client("/api/profile/password", {
+            body: {
+                type_id: type.value,
+                title: title.value,
+                fulltitle: fulltitle.value,
+                inn: inn.value,
+                kpp: kpp.value,
+                ogrn: ogrn.value,
+                okved: okved.value,
+                phone: phone.value,
+                fax: fax.value,
+                email: email.value,
+                address: address.value,
+                industry: industry.value,
+                activity: activity.value,
+                waste: waste.value,
+                registration: registration.value,
+                licensies: licensies
+            }
+        })
+            .then(({ data: user }) => {
+                setShowAlert(true);
+            })
+            .catch(error => {
+                error.json().then(({ errors }) => {
+                    [
+                        type_id,
+                        title,
+                        fulltitle,
+                        inn,
+                        kpp,
+                        ogrn,
+                        okved,
+                        phone,
+                        fax,
+                        email,
+                        address,
+                        industry,
+                        activity,
+                        waste,
+                        registration
+                    ].forEach(({ parseServerError }) =>
+                        parseServerError(errors)
+                    );
+                });
+            });
     };
-    const options = [
-        { value: "chocolate", label: "Chocolate" },
-        { value: "strawberry", label: "Strawberry" },
-        { value: "vanilla", label: "Vanilla" }
+
+    const typeOptions = [
+        { value: "LEGAL", label: "Юридическое лицо" },
+        { value: 2, label: "Физическое лицо" },
+        { value: 50102, label: "Индивидуальный предприниматель" },
+        { value: 50101, label: "Глава крестьянского (фермерского) хозяйства" }
     ];
 
-    const [state, setState] = useState({
-        selectedOption: null
+    const [type, setType] = useState({
+        value: company ? company.opf.code : 1,
+        error: ""
     });
 
-    const handleChange = selectedOption => {
-        setState(prevState => {
-            console.log(`Option selected:`, selectedOption);
-            return {
-                selectedOption: selectedOption
-            };
+    const handleTypeChange = value => {
+        setType({
+            value: value,
+            error: ""
         });
     };
 
     return (
         <>
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 border-0">
-                <div className="flex-auto py-10 pt-0 w-full">
+                <div className="flex-auto py-10 pt-0 w-full lg:w-4/5 xl:w-2/3">
                     <form onSubmit={handleSubmit}>
                         <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
-                                    <input
-                                        type="text"
-                                        className="md-input bg-transparent"
-                                        placeholder=" "
+                            {/* type_id, */}
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
+                                    <Select
+                                        onChange={handleTypeChange}
+                                        options={typeOptions}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="title"
+                                        className="md-label bg-gray-100 px-1"
                                     >
-                                        Тип организации
+                                        Тип
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {type.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {type.error}
+                                    </p>
+                                )}
                             </div>
-                            <Select
-                                value={state.selectedOption}
-                                onChange={handleChange}
-                                options={options}
-                            />
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
                                         type="text"
-                                        className="md-input bg-transparent"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            title.error ? "border-red-500" : ""
+                                        }`}
                                         placeholder=" "
+                                        id="title"
+                                        name="title"
+                                        required
+                                        {...title.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="title"
+                                        className="md-label bg-gray-100 px-1"
                                     >
-                                        Название
+                                        Название организации
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {title.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {title.error}
+                                    </p>
+                                )}
                             </div>
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
                                         type="text"
-                                        className="md-input bg-transparent"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            fulltitle.error
+                                                ? "border-red-500"
+                                                : ""
+                                        }`}
                                         placeholder=" "
+                                        id="fulltitle"
+                                        name="fulltitle"
+                                        required
+                                        {...fulltitle.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="fulltitle"
+                                        className="md-label bg-gray-100 px-1"
                                     >
                                         Полное название
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {fulltitle.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {fulltitle.error}
+                                    </p>
+                                )}
                             </div>
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
                                         type="text"
-                                        className="md-input bg-transparent"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            inn.error ? "border-red-500" : ""
+                                        }`}
                                         placeholder=" "
+                                        id="name"
+                                        name="inn"
+                                        required
+                                        {...inn.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="inn"
+                                        className="md-label bg-gray-100 px-1"
                                     >
                                         ИНН
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {inn.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {inn.error}
+                                    </p>
+                                )}
                             </div>
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
                                         type="text"
-                                        className="md-input bg-transparent"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            kpp.error ? "border-red-500" : ""
+                                        }`}
                                         placeholder=" "
+                                        id="name"
+                                        name="kpp"
+                                        required
+                                        {...kpp.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="kpp"
+                                        className="md-label bg-gray-100 px-1"
                                     >
                                         КПП
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {kpp.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {kpp.error}
+                                    </p>
+                                )}
                             </div>
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
                                         type="text"
-                                        className="md-input bg-transparent"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            ogrn.error ? "border-red-500" : ""
+                                        }`}
                                         placeholder=" "
+                                        id="name"
+                                        name="ogrn"
+                                        required
+                                        {...ogrn.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="ogrn"
+                                        className="md-label bg-gray-100 px-1"
                                     >
                                         ОГРН
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {ogrn.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {ogrn.error}
+                                    </p>
+                                )}
                             </div>
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
                                         type="text"
-                                        className="md-input bg-transparent"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            guiv.error ? "border-red-500" : ""
+                                        }`}
                                         placeholder=" "
+                                        id="name"
+                                        name="ogrn"
+                                        required
+                                        {...guiv.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="guiv"
+                                        className="md-label bg-gray-100 px-1"
+                                    >
+                                        ГУИВ
+                                    </label>
+                                </div>
+                                {guiv.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {guiv.error}
+                                    </p>
+                                )}
+                            </div>
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
+                                    <input
+                                        type="text"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            okved.error ? "border-red-500" : ""
+                                        }`}
+                                        placeholder=" "
+                                        id="name"
+                                        name="okved"
+                                        required
+                                        {...okved.bind}
+                                    />
+                                    <label
+                                        htmlFor="okved"
+                                        className="md-label bg-gray-100 px-1"
                                     >
                                         ОКВЭД
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {okved.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {okved.error}
+                                    </p>
+                                )}
                             </div>
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
                                         type="text"
-                                        className="md-input bg-transparent"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            phone.error ? "border-red-500" : ""
+                                        }`}
                                         placeholder=" "
+                                        id="name"
+                                        name="phone"
+                                        required
+                                        {...phone.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="phone"
+                                        className="md-label bg-gray-100 px-1"
                                     >
                                         Телефон
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {phone.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {phone.error}
+                                    </p>
+                                )}
                             </div>
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
                                         type="text"
-                                        className="md-input bg-transparent"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            fax.error ? "border-red-500" : ""
+                                        }`}
                                         placeholder=" "
+                                        id="name"
+                                        name="fax"
+                                        required
+                                        {...fax.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="fax"
+                                        className="md-label bg-gray-100 px-1"
                                     >
                                         Факс
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {fax.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {fax.error}
+                                    </p>
+                                )}
                             </div>
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
-                                        type="text"
-                                        className="md-input bg-transparent"
+                                        type="email"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            email.error ? "border-red-500" : ""
+                                        }`}
                                         placeholder=" "
+                                        id="name"
+                                        name="email"
+                                        required
+                                        {...email.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="email"
+                                        className="md-label bg-gray-100 px-1"
                                     >
                                         E-mail
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {email.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {email.error}
+                                    </p>
+                                )}
                             </div>
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
                                         type="text"
-                                        className="md-input bg-transparent"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            address.error
+                                                ? "border-red-500"
+                                                : ""
+                                        }`}
                                         placeholder=" "
+                                        id="name"
+                                        name="address"
+                                        required
+                                        {...address.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="address"
+                                        className="md-label bg-gray-100 px-1"
                                     >
                                         Адрес
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {address.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {address.error}
+                                    </p>
+                                )}
                             </div>
-                        </div>
-                        <div className="flex flex-wrap flex-col">
-                            <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div className="md-input-box">
+                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                                <div className={`md-input-box`}>
                                     <input
                                         type="text"
-                                        className="md-input bg-transparent"
+                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
+                                            address.error
+                                                ? "border-red-500"
+                                                : ""
+                                        }`}
                                         placeholder=" "
+                                        id="name"
+                                        name="address"
+                                        required
+                                        {...address.bind}
                                     />
                                     <label
-                                        htmlFor="fullName"
-                                        className="md-label"
+                                        htmlFor="address"
+                                        className="md-label bg-gray-100 px-1"
                                     >
-                                        Вид промышленности
+                                        Факс
                                     </label>
-                                    <div className="md-input-underline" />
                                 </div>
+                                {address.error && (
+                                    <p className="text-red-500 text-xs pt-2">
+                                        {address.error}
+                                    </p>
+                                )}
                             </div>
+                            industry, activity, waste, registration
                         </div>
-                        <div className="mx-auto max-w-sm">
-                            <h1 className="mb-6 pt-6">
-                                {" "}
-                                Make the right choice :
-                            </h1>
-
-                            <div className="pl-12">
-                                <div className="flex items-center mr-4 mb-4">
-                                    <input
-                                        id="radio1"
-                                        type="radio"
-                                        name="radio"
-                                        className="hidden"
-                                    />
-                                    <label
-                                        htmlFor="radio1"
-                                        className="flex items-center cursor-pointer text-xl"
-                                    >
-                                        <span className="w-8 h-8 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
-                                        Best choice
-                                    </label>
-                                </div>
-
-                                <div className="flex items-center mr-4 mb-4">
-                                    <input
-                                        id="radio2"
-                                        type="radio"
-                                        name="radio"
-                                        className="hidden"
-                                    />
-                                    <label
-                                        htmlFor="radio2"
-                                        className="flex items-center cursor-pointer text-xl"
-                                    >
-                                        <span className="w-8 h-8 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
-                                        Second choice
-                                    </label>
-                                </div>
-
-                                <div className="flex items-center mr-4 mb-4">
-                                    <input
-                                        id="radio3"
-                                        type="radio"
-                                        name="radio"
-                                        className="hidden"
-                                    />
-                                    <label
-                                        htmlFor="radio3"
-                                        className="flex items-center cursor-pointer text-xl"
-                                    >
-                                        <span className="w-8 h-8 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
-                                        Third choice
-                                    </label>
-                                </div>
-
-                                <div className="flex items-center mr-4 mb-4">
-                                    <input
-                                        id="radio4"
-                                        type="radio"
-                                        name="radio"
-                                        className="hidden"
-                                    />
-                                    <label
-                                        htmlFor="radio4"
-                                        className="flex items-center cursor-pointer text-xl"
-                                    >
-                                        <span className="w-8 h-8 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
-                                        Fourth choice
-                                    </label>
-                                </div>
-
-                                <div className="flex items-center mr-4 mb-4">
-                                    <input
-                                        id="radio5"
-                                        type="radio"
-                                        name="radio"
-                                        className="hidden"
-                                    />
-                                    <label
-                                        htmlFor="radio5"
-                                        className="flex items-center cursor-pointer text-xl"
-                                    >
-                                        <span className="w-8 h-8 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
-                                        Choice Five with a longer title
-                                    </label>
-                                </div>
+                        {showAlert ? (
+                            <div
+                                className={
+                                    "text-white px-6 py-4 border-0 rounded relative mb-4 bg-green-500"
+                                }
+                            >
+                                <span className="inline-block align-middle mr-8">
+                                    Организация обновлена!
+                                </span>
+                                <button
+                                    className="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus:outline-none"
+                                    onClick={() => setShowAlert(false)}
+                                >
+                                    <span>×</span>
+                                </button>
                             </div>
-                        </div>
+                        ) : null}
                         <div className="py-6 w-full">
                             <div className="text-center flex justify-start">
                                 <button
-                                    className="h-10 font-lg px-5 rounded-md text-blue-500 transition-colors duration-150 border-2 border-blue-400 focus:shadow-outline hover:bg-blue-400 hover:text-white"
+                                    className="h-10 font-lg px-5 rounded-md text-green-600 transition-colors duration-150 border-2 border-green-600 focus:shadow-outline hover:bg-green-400 hover:text-white"
                                     type="button"
                                     onClick={handleSubmit}
                                 >
                                     Сохранить
-                                </button>
-                                <button
-                                    className="h-10 font-lg ml-4 px-5 rounded-md text-blue-500 transition-colors duration-150 border-2 border-blue-400 focus:shadow-outline hover:bg-blue-400 hover:text-white"
-                                    type="button"
-                                    onClick={handleSubmit}
-                                >
-                                    Новый поиск
                                 </button>
                             </div>
                         </div>
