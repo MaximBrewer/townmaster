@@ -25,8 +25,8 @@
 
 </head>
 
-<body class="font-sans h-full text-grey-darkest">
-    <div id="app" class="flex flex-col">
+<body className="font-sans h-full text-grey-darkest">
+    <div id="app" className="flex flex-col">
     </div>
 </body>
 

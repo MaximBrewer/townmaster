@@ -1,22 +1,44 @@
 import React from "react";
 import { NavLink, Link, useHistory } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 
+import { Lens as LensIcon, Profile as ProfileIcon } from "../../Icons";
 import client from "../../api/client";
 
 import UserDropdown from "../../components/Dropdowns/UserDropdown.js";
 
-export default function Navbar({ toggleSideBar, setSearchResult }) {
+export default function Navbar({
+    toggleSideBar,
+    setSearchResult,
+    searchResult
+}) {
+    let match = useRouteMatch("/personal/company-add");
+
     let { currentUser } = useAuth();
 
     const getCompanies = event => {
-        if (event.target.value.length > 3)
+        const eventTarget = event.target;
+        setSearchResult(prevState => ({
+            ...prevState,
+            query: eventTarget.value
+        }));
+        if (eventTarget.value.length > 3)
             client("/api/searchCompanies", {
-                body: { q: event.target.value }
+                body: { q: eventTarget.value }
             }).then(({ companies }) => {
-                setSearchResult({ search: true, items: companies });
+                setSearchResult(prevState => ({
+                    ...prevState,
+                    search: true,
+                    items: companies
+                }));
             });
-        else setSearchResult({ search: false, items: [] });
+        else
+            setSearchResult(prevState => ({
+                ...prevState,
+                search: false,
+                items: []
+            }));
     };
 
     return (
@@ -39,50 +61,61 @@ export default function Navbar({ toggleSideBar, setSearchResult }) {
                             </svg>
                         </button>
                     </div>
-                    <div className="relative text-gray-600 w-full">
-                        <button
-                            type="submit"
-                            className="absolute left-0 top-0 mt-3 ml-4"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                version="1.1"
-                                id="Capa_1"
-                                x="0px"
-                                y="0px"
-                                viewBox="0 0 56.966 56.966"
-                                xmlSpace="preserve"
-                                width="512px"
-                                height="512px"
-                                className="h-4 w-4 fill-current"
+                    {match ? (
+                        <div className="relative text-gray-600 w-full">
+                            <button
+                                type="submit"
+                                className="absolute left-0 top-0 mt-2 ml-2 h-6 w-6 fill-current"
                             >
-                                <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"></path>
-                            </svg>
-                        </button>
-                        <input
-                            onChange={getCompanies}
-                            type="search"
-                            name="serch"
-                            placeholder="поиск по инн, кпп, огрн или названию организации..."
-                            className="bg-transparent h-10 w-full px-5 pl-10 text-sm focus:outline-none"
-                        />
+                                <LensIcon />
+                            </button>
+                            <input
+                                onChange={getCompanies}
+                                type="search"
+                                name="serch"
+                                value={searchResult.query}
+                                placeholder="поиск по инн, кпп, огрн или названию организации..."
+                                className="bg-transparent h-10 w-full px-5 pl-10 text-sm focus:outline-none"
+                            />
+                        </div>
+                    ) : (
+                        <div className="flex">
+                            <div className="h-6 w-6 fill-current mr-3">
+                                <ProfileIcon />
+                            </div>
+                            <Link to={`/personal/profile`}>
+                                {currentUser.name
+                                    ? currentUser.name +
+                                      (currentUser.lastname
+                                          ? ` ${currentUser.lastname}`
+                                          : ``)
+                                    : currentUser.email}
+                            </Link>
+                            &nbsp;/&nbsp;
+                            <Link to={`/personal/profile#tariff`}>
+                                <span className={`text-red-700`}>FREE</span>
+                            </Link>
+                        </div>
+                    )}
+                </div>
+                {match ? (
+                    <div className="flex items-center relative">
+                        <Link to={`/personal/profile`}>
+                            {currentUser.name
+                                ? currentUser.name +
+                                  (currentUser.lastname
+                                      ? ` ${currentUser.lastname}`
+                                      : ``)
+                                : currentUser.email}
+                        </Link>
+                        &nbsp;/&nbsp;
+                        <Link to={`/personal/profile#tariff`}>
+                            <span className={`text-red-700`}>FREE</span>
+                        </Link>
                     </div>
-                </div>
-                <div className="flex items-center relative">
-                    <Link to={`/personal/profile`}>
-                        {currentUser.name
-                            ? currentUser.name +
-                              (currentUser.lastname
-                                  ? ` ${currentUser.lastname}`
-                                  : ``)
-                            : currentUser.email}
-                    </Link>
-                    &nbsp;/&nbsp;
-                    <Link to={`/personal/tariff`}>
-                        <span className={`text-red-700`}>FREE</span>
-                    </Link>
-                </div>
+                ) : (
+                    ``
+                )}
             </div>
         </div>
     );

@@ -6,18 +6,12 @@ import { useAuth } from "../context/auth";
 
 import Navbar from "../components/Navbars/Navbar.js";
 import Sidebar from "../components/Sidebar/Sidebar.js";
-import HeaderStats from "../components/Headers/HeaderStats.js";
 import Footer from "../components/Footers/Footer.js";
 
 // views
 
-import Dashboard from "./personal/Dashboard.js";
-import Maps from "./personal/Maps.js";
-import Settings from "./personal/Settings.js";
-import Tables from "./personal/Tables.js";
 import CompanyAdd from "./personal/CompanyAdd.js";
 import Companies from "./personal/Companies.js";
-import Tariff from "./personal/Tariff.js";
 import Profile from "./personal/Profile.js";
 import Support from "./personal/Support.js";
 
@@ -29,7 +23,8 @@ export default function Personal() {
     };
     const [searchResult, setSearchResult] = useState({
         search: false,
-        items: []
+        items: [],
+        query: ""
     });
     return (
         <div className="leading-normal tracking-normal" id="main-body">
@@ -49,18 +44,17 @@ export default function Personal() {
                         sideBarOpen={sideBarOpen}
                         toggleSideBar={toggleSideBar}
                         setSearchResult={setSearchResult}
+                        searchResult={searchResult}
                     />
-                    <div className="p-6 bg-gray-100 mb-20 flex flex-grow">
+                    <div className="p-6 bg-gray-100 mb-20 flex flex-col flex-grow">
                         <Switch>
                             <Route
                                 path="/personal/profile"
-                                exact
                                 component={Profile}
                             />
-                            <Route
-                                path="/personal/tariff"
-                                exact
-                                component={Tariff}
+                            <Redirect
+                                from="/personal/profile"
+                                to="/personal/profile/info"
                             />
                             <Route
                                 path="/personal/companies"
@@ -68,7 +62,10 @@ export default function Personal() {
                                 component={Companies}
                             />
                             <Route path="/personal/company-add" exact>
-                                <CompanyAdd searchResult={searchResult} setSearchResult={setSearchResult}/>
+                                <CompanyAdd
+                                    searchResult={searchResult}
+                                    setSearchResult={setSearchResult}
+                                />
                             </Route>
                             <Route
                                 path="/personal/support"

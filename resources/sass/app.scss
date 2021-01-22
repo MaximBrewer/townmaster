@@ -2,17 +2,16 @@
 
 @tailwind components;
 
-@tailwind utilities; 
+@tailwind utilities;
 
-
-@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
 
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 
-@import './lib/nprogress';
+@import "./lib/nprogress";
 
-@import './_variables';
-@import './components/authnav';
+@import "./_variables";
+@import "./components/authnav";
 
 input:invalid {
     box-shadow: none;
@@ -27,9 +26,8 @@ body::-webkit-scrollbar {
 }
 
 .overlay {
-    position: relative; 
+    position: relative;
 }
-
 
 /* 1024 -1 so it doesnt show when it hits 1024px */
 @media only screen and (max-width: 1023px) {
@@ -48,51 +46,52 @@ body::-webkit-scrollbar {
 }
 
 .md-input-box {
-	@apply relative;
-  	position: relative;
+    position: relative;
 }
 .md-input {
-	@apply w-full;
-  	width: 100%;
-	outline: none;
-	height: 50px;
+    @apply w-full;
+    width: 100%;
+    outline: none;
 }
 .md-label {
 	@apply absolute pointer-events-none block;
-  	display: block;
-  	position: absolute;
-  	pointer-events: none;
-	transform-origin: top left;
-	transform: translate(0, -40px) scale(1);
-	transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
-}
-.md-label-focus {
-	// @apply text-blue;
-	color: #3182ce;
-	transform: translate(0, -65px) scale(0.75);
-	transform-origin: top left;
-}
-.md-input-underline {
-	border-bottom: 1px solid #718096;;
-}
-.md-input-underline:after {
-	@apply absolute left-0 right-0 pointer-events-none;
-  	position: absolute;
-  	left: 0;
-  	right: 0;
-  	pointer-events: none;
-	bottom: -0.05rem;
-	content: "";
-	transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
-	transform: scaleX(0);
-	border-bottom: 2px solid #3182ce;
+    display: block;
+    pointer-events: none;
+    transform-origin: top left;
+    transform: translate(0, 0) scale(1);
+    transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+		transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+		
+	top: 50%;
+	margin-top: -12px;
+	left: 1rem;
+
 }
 .md-input:focus ~ .md-input-underline:after {
-	transform: scaleX(1);
+    transform: scaleX(1);
 }
-.md-input:focus + .md-label, .md-input:not(:placeholder-shown) + .md-label {
-  	@apply md-label-focus;
-	color: #3182ce;
-	transform: translate(0, -65px) scale(0.75);
-	transform-origin: top left;
+.md-input:focus + .md-label,
+.md-input:not(:placeholder-shown) + .md-label {
+    --tw-text-opacity: 1;
+    color: rgba(5, 150, 105, var(--tw-text-opacity));
+    transform: translate(0, -25px) scale(0.95);
+    transform-origin: top left;
+}
+
+input[type="radio"] + label span {
+    transition: background 0.2s, transform 0.2s;
+}
+
+input[type="radio"] + label span:hover,
+input[type="radio"] + label:hover span {
+    transform: scale(1.2);
+}
+
+input[type="radio"]:checked + label span {
+    background-color: #3490dc; //bg-blue
+    box-shadow: 0px 0px 0px 2px white inset;
+}
+
+input[type="radio"]:checked + label {
+    color: #3490dc; //text-blue
 }

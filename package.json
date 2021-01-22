@@ -46,6 +46,8 @@
         "laravel-mix-tailwind": "^0.1.0",
         "react-autosuggest": "^10.1.0",
         "react-bootstrap": "^1.4.0",
-        "react-google-maps": "^9.4.5"
+        "react-dropdown": "^1.9.1",
+        "react-google-maps": "^9.4.5",
+        "react-select": "^3.2.0"
     }
 }

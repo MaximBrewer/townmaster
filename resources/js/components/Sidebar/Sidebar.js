@@ -39,65 +39,77 @@ export default function Sidebar({ sideBarOpen }) {
                     Таун&nbsp;Мастер
                 </p>
             </div>
-
-            <div className="mb-4">
-                <div
-                    className={`border-b border-t w-full flex items-center cursor-pointer`}
-                >
-                    <NavLink
-                        to={`/personal/profile`}
-                        className={`py-4 block flex hover:bg-gray-200 w-full px-4`}
-                        activeClassName="bg-gray-200"
+            <div className="flex flex-col h-full">
+                <div className="mb-4 flex-grow">
+                    <div
+                        className={`border-b border-t w-full flex items-center cursor-pointer`}
                     >
-                        <ProfileSidebarIcon />
-                        <span>
-                            {currentUser.name
-                                ? currentUser.name +
-                                  (currentUser.lastname
-                                      ? ` ${currentUser.lastname}`
-                                      : ``)
-                                : currentUser.email}
-                        </span>
-                        <span>&nbsp;/&nbsp;</span>
-                        <span className={`text-red-700`}>FREE</span>
-                    </NavLink>
+                        <NavLink
+                            to={`/personal/profile`}
+                            className={`py-4 block flex hover:bg-gray-200 w-full px-4`}
+                            activeClassName="bg-gray-200"
+                        >
+                            <div className="h-6 w-6 fill-current mr-2">
+                                <ProfileSidebarIcon />
+                            </div>
+                            <span>
+                                {currentUser.name
+                                    ? currentUser.name +
+                                      (currentUser.lastname
+                                          ? ` ${currentUser.lastname}`
+                                          : ``)
+                                    : currentUser.email}
+                            </span>
+                            <span>&nbsp;/&nbsp;</span>
+                            <span className={`text-red-700`}>FREE</span>
+                        </NavLink>
+                    </div>
+                    <div className="border-b w-full flex items-center cursor-pointer">
+                        <NavLink
+                            to={`/personal/companies`}
+                            className={`py-4 block flex hover:bg-gray-200 w-full px-4`}
+                            activeClassName="bg-gray-200"
+                        >
+                            <div className="h-6 w-6 fill-current mr-2">
+                                <CompaniesSidebarIcon />
+                            </div>
+                            <span className={`text-gray-700 truncate"`}>
+                                Все организации
+                            </span>
+                        </NavLink>
+                    </div>
+                    <div className="border-b w-full flex items-center cursor-pointer">
+                        <NavLink
+                            to={`/personal/company-add`}
+                            className={`py-4 block flex hover:bg-gray-200 w-full px-4`}
+                            activeClassName="bg-gray-200"
+                        >
+                            <div className="h-6 w-6 fill-current mr-2">
+                                <CompanyAddSidebarIcon />
+                            </div>
+                            <span className={`text-gray-700 truncate"`}>
+                                Добавить организацию
+                            </span>
+                        </NavLink>
+                    </div>
+                    <div className="border-b w-full flex items-center cursor-pointer">
+                        <NavLink
+                            to={`/personal/support`}
+                            className={`py-4 block flex hover:bg-gray-200 w-full px-4`}
+                            activeClassName="bg-gray-200"
+                        >
+                            <div className="h-6 w-6 fill-current mr-2">
+                                <SupportSidebarIcon />
+                            </div>
+                            <span className={`text-gray-700 truncate"`}>
+                                Техническая поддержка
+                            </span>
+                        </NavLink>
+                    </div>
                 </div>
-                <div className="border-b w-full flex items-center cursor-pointer">
-                    <NavLink
-                        to={`/personal/companies`}
-                        className={`py-4 block flex hover:bg-gray-200 w-full px-4`}
-                        activeClassName="bg-gray-200"
-                    >
-                        <CompaniesSidebarIcon />
-                        <span className={`text-gray-700 truncate"`}>
-                            Все организации
-                        </span>
-                    </NavLink>
-                </div>
-                <div className="border-b w-full flex items-center cursor-pointer">
-                    <NavLink
-                        to={`/personal/company-add`}
-                        className={`py-4 block flex hover:bg-gray-200 w-full px-4`}
-                        activeClassName="bg-gray-200"
-                    >
-                        <CompanyAddSidebarIcon />
-                        <span className={`text-gray-700 truncate"`}>
-                            Добавить организацию
-                        </span>
-                    </NavLink>
-                </div>
-                <div className="border-b w-full flex items-center cursor-pointer">
-                    <NavLink
-                        to={`/personal/support`}
-                        className={`py-4 block flex hover:bg-gray-200 w-full px-4`}
-                        activeClassName="bg-gray-200"
-                    >
-                        <SupportSidebarIcon />
-                        <span className={`text-gray-700 truncate"`}>
-                            Техническая поддержка
-                        </span>
-                    </NavLink>
-                </div>
+                <button className="h-12 font-lg px-5 rounded-md text-blue-500 transition-colors duration-150 border-2 border-blue-400 focus:shadow-outline hover:bg-blue-400 hover:text-white">
+                    заполнить вручную
+                </button>
             </div>
         </div>
     );

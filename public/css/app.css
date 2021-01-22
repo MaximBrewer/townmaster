@@ -37642,14 +37642,12 @@ body::-webkit-scrollbar {
 
 .md-input-box {
   position: relative;
-  position: relative;
 }
 
 .md-input {
   width: 100%;
   width: 100%;
   outline: none;
-  height: 50px;
 }
 
 .md-label {
@@ -37657,37 +37655,13 @@ body::-webkit-scrollbar {
   pointer-events: none;
   position: absolute;
   display: block;
-  position: absolute;
   pointer-events: none;
   transform-origin: top left;
-  transform: translate(0, -40px) scale(1);
+  transform: translate(0, 0) scale(1);
   transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-}
-
-.md-label-focus {
-  color: #3182ce;
-  transform: translate(0, -65px) scale(0.75);
-  transform-origin: top left;
-}
-
-.md-input-underline {
-  border-bottom: 1px solid #718096;
-}
-
-.md-input-underline:after {
-  pointer-events: none;
-  position: absolute;
-  right: 0px;
-  left: 0px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  pointer-events: none;
-  bottom: -0.05rem;
-  content: "";
-  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-  transform: scaleX(0);
-  border-bottom: 2px solid #3182ce;
+  top: 50%;
+  margin-top: -12px;
+  left: 1rem;
 }
 
 .md-input:focus ~ .md-input-underline:after {
@@ -37695,30 +37669,43 @@ body::-webkit-scrollbar {
 }
 
 .md-input:not(:-moz-placeholder-shown) + .md-label {
-  color: #3182ce;
-  transform: translate(0, -65px) scale(0.75);
-  transform-origin: top left;
-  color: #3182ce;
-  transform: translate(0, -65px) scale(0.75);
+  --tw-text-opacity: 1;
+  color: rgba(5, 150, 105, var(--tw-text-opacity));
+  transform: translate(0, -25px) scale(0.95);
   transform-origin: top left;
 }
 
 .md-input:not(:-ms-input-placeholder) + .md-label {
-  color: #3182ce;
-  transform: translate(0, -65px) scale(0.75);
-  transform-origin: top left;
-  color: #3182ce;
-  transform: translate(0, -65px) scale(0.75);
+  --tw-text-opacity: 1;
+  color: rgba(5, 150, 105, var(--tw-text-opacity));
+  transform: translate(0, -25px) scale(0.95);
   transform-origin: top left;
 }
 
-.md-input:focus + .md-label, .md-input:not(:placeholder-shown) + .md-label {
-  color: #3182ce;
-  transform: translate(0, -65px) scale(0.75);
+.md-input:focus + .md-label,
+.md-input:not(:placeholder-shown) + .md-label {
+  --tw-text-opacity: 1;
+  color: rgba(5, 150, 105, var(--tw-text-opacity));
+  transform: translate(0, -25px) scale(0.95);
   transform-origin: top left;
-  color: #3182ce;
-  transform: translate(0, -65px) scale(0.75);
-  transform-origin: top left;
+}
+
+input[type=radio] + label span {
+  transition: background 0.2s, transform 0.2s;
+}
+
+input[type=radio] + label span:hover,
+input[type=radio] + label:hover span {
+  transform: scale(1.2);
+}
+
+input[type=radio]:checked + label span {
+  background-color: #3490dc;
+  box-shadow: 0px 0px 0px 2px white inset;
+}
+
+input[type=radio]:checked + label {
+  color: #3490dc;
 }
 
 @media (min-width: 640px){

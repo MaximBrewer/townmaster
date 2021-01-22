@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import CardCompany from "../../components/Cards/CardCompany";
+
+import { ArrowUp as ArrowUpIcon } from "../../Icons";
+
 // {
 //     "value": "ОАО \"ОМСКХЛЕБОПРОДУКТ\"",
 //     "unrestricted_value": "ОАО \"ОМСКХЛЕБОПРОДУКТ\"",
@@ -160,7 +163,11 @@ export default function CompanyAdd({ searchResult, setSearchResult }) {
     const [company, setCompany] = useState({});
 
     const openClearForm = () => {
-        setSearchResult({ search: false, items: [] });
+        setSearchResult({
+            query: "",
+            search: false,
+            items: []
+        });
         setCompany({});
         setShowForm(true);
     };
@@ -174,7 +181,7 @@ export default function CompanyAdd({ searchResult, setSearchResult }) {
                             <table className="table-fixed">
                                 <thead>
                                     <tr>
-                                        <th className="text-left w-1/3 px-4 py-2 text-gray-700">
+                                        <th className="text-left w-1/2 px-4 py-2 text-gray-700">
                                             Название
                                         </th>
                                         <th className="text-left px-4 py-2 text-gray-700">
@@ -193,6 +200,7 @@ export default function CompanyAdd({ searchResult, setSearchResult }) {
                                         <tr
                                             onClick={() => {
                                                 setSearchResult({
+                                                    query: "",
                                                     search: false,
                                                     items: []
                                                 });
@@ -200,7 +208,7 @@ export default function CompanyAdd({ searchResult, setSearchResult }) {
                                                 setShowForm(true);
                                             }}
                                             key={index}
-                                            className="cursor-pointer"
+                                            className="cursor-pointer hover:bg-gray-300"
                                         >
                                             <td className="border-t border-b border-light-gray-500 px-4 py-2 text-gray-700">
                                                 <div className="text-sm">
@@ -256,7 +264,16 @@ export default function CompanyAdd({ searchResult, setSearchResult }) {
             ) : showFrom ? (
                 <CardCompany company={company} />
             ) : (
-                <h2 className="uppercase">Чтобы начать вести учет отходов и работать в сервисе, начните вводить название организации, инн, кпп или огрн, мы попробуем найти ее в нашем каталоге.</h2>
+                <div className="flex">
+                    <div className="mr-4 w-16">
+                        <ArrowUpIcon />
+                    </div>
+                    <h2 className="uppercase pt-2 max-w-4xl">
+                        Чтобы начать вести учет отходов и работать в сервисе,
+                        начните вводить название организации, инн, кпп или огрн,
+                        мы попробуем найти ее в нашем каталоге.
+                    </h2>
+                </div>
             )}
         </div>
     );

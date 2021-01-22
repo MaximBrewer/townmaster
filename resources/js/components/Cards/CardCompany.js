@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import Select from "react-select";
 // components
 
 export default function CardCompany({ company, setCompany }) {
@@ -7,6 +7,25 @@ export default function CardCompany({ company, setCompany }) {
     const handleSubmit = () => {
         console.log(company);
     };
+    const options = [
+        { value: "chocolate", label: "Chocolate" },
+        { value: "strawberry", label: "Strawberry" },
+        { value: "vanilla", label: "Vanilla" }
+    ];
+
+    const [state, setState] = useState({
+        selectedOption: null
+    });
+
+    const handleChange = selectedOption => {
+        setState(prevState => {
+            console.log(`Option selected:`, selectedOption);
+            return {
+                selectedOption: selectedOption
+            };
+        });
+    };
+
     return (
         <>
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 border-0">
@@ -14,193 +33,310 @@ export default function CardCompany({ company, setCompany }) {
                     <form onSubmit={handleSubmit}>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         Тип организации
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
+                            <Select
+                                value={state.selectedOption}
+                                onChange={handleChange}
+                                options={options}
+                            />
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         Название
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         Полное название
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         ИНН
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         КПП
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         ОГРН
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         ОКВЭД
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         Телефон
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         Факс
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         E-mail
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         Адрес
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap flex-col">
                             <div className="md-input-main w-full lg:w-12/12 my-5">
-                                <div class="md-input-box">
+                                <div className="md-input-box">
                                     <input
                                         type="text"
-                                        class="md-input bg-transparent"
+                                        className="md-input bg-transparent"
                                         placeholder=" "
-
                                     />
-                                    <label for="fullName" class="md-label">
+                                    <label
+                                        htmlFor="fullName"
+                                        className="md-label"
+                                    >
                                         Вид промышленности
                                     </label>
-                                    <div class="md-input-underline" />
+                                    <div className="md-input-underline" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mx-auto max-w-sm">
+                            <h1 className="mb-6 pt-6">
+                                {" "}
+                                Make the right choice :
+                            </h1>
+
+                            <div className="pl-12">
+                                <div className="flex items-center mr-4 mb-4">
+                                    <input
+                                        id="radio1"
+                                        type="radio"
+                                        name="radio"
+                                        className="hidden"
+                                    />
+                                    <label
+                                        htmlFor="radio1"
+                                        className="flex items-center cursor-pointer text-xl"
+                                    >
+                                        <span className="w-8 h-8 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
+                                        Best choice
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center mr-4 mb-4">
+                                    <input
+                                        id="radio2"
+                                        type="radio"
+                                        name="radio"
+                                        className="hidden"
+                                    />
+                                    <label
+                                        htmlFor="radio2"
+                                        className="flex items-center cursor-pointer text-xl"
+                                    >
+                                        <span className="w-8 h-8 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
+                                        Second choice
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center mr-4 mb-4">
+                                    <input
+                                        id="radio3"
+                                        type="radio"
+                                        name="radio"
+                                        className="hidden"
+                                    />
+                                    <label
+                                        htmlFor="radio3"
+                                        className="flex items-center cursor-pointer text-xl"
+                                    >
+                                        <span className="w-8 h-8 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
+                                        Third choice
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center mr-4 mb-4">
+                                    <input
+                                        id="radio4"
+                                        type="radio"
+                                        name="radio"
+                                        className="hidden"
+                                    />
+                                    <label
+                                        htmlFor="radio4"
+                                        className="flex items-center cursor-pointer text-xl"
+                                    >
+                                        <span className="w-8 h-8 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
+                                        Fourth choice
+                                    </label>
+                                </div>
+
+                                <div className="flex items-center mr-4 mb-4">
+                                    <input
+                                        id="radio5"
+                                        type="radio"
+                                        name="radio"
+                                        className="hidden"
+                                    />
+                                    <label
+                                        htmlFor="radio5"
+                                        className="flex items-center cursor-pointer text-xl"
+                                    >
+                                        <span className="w-8 h-8 inline-block mr-2 rounded-full border border-grey flex-no-shrink"></span>
+                                        Choice Five with a longer title
+                                    </label>
                                 </div>
                             </div>
                         </div>
