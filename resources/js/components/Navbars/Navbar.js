@@ -24,7 +24,7 @@ export default function Navbar({
             query: eventTarget.value
         }));
         if (eventTarget.value.length > 3)
-            client("/api/searchCompanies", {
+            client("/api/companies/search", {
                 body: { q: eventTarget.value }
             }).then(({ companies }) => {
                 setSearchResult(prevState => ({

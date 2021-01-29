@@ -31,7 +31,9 @@ Route::name('api.')->namespace('Api')->group(function () {
             Route::get('me', 'MeController@me')->name('me');
             Route::post('logout', 'LogoutController@logout')->name('logout');
         });
-        Route::post('searchCompanies', 'CompaniesController@search')->name('companies.search');
+        Route::resource('/companies', CompaniesController::class);
+        Route::post('/companies/search', 'CompaniesController@search')->name('companies.search');
+
         Route::post('/profile/update', 'ProfileController@update')->name('profile.update');
         Route::post('/profile/password', 'ProfileController@password')->name('profile.password');
     });

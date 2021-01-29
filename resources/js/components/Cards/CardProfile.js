@@ -7,12 +7,11 @@ import client from "../../api/client";
 // components
 
 export default function CardProfile() {
-    let { setCurrentUser, setToken, currentUser } = useAuth();
-    console.log(currentUser);
-    let name = useInputValue("name", currentUser.name);
-    let lastname = useInputValue("lastname", currentUser.lastname);
-    let surname = useInputValue("surname", currentUser.surname);
-    let phone = useInputValue("phone", currentUser.phone);
+    let { setCurrentUser, setToken, currentUser } = useAuth(); 
+    let name = useInputValue("name", currentUser.name ? currentUser.name : "");
+    let lastname = useInputValue("lastname", currentUser.lastname ? currentUser.lastname : "");
+    let surname = useInputValue("surname", currentUser.surname ? currentUser.surname : "");
+    let phone = useInputValue("phone", currentUser.phone ? currentUser.phone : "");
 
     const [showAlert, setShowAlert] = useState(false);
 

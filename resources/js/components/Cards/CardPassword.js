@@ -8,7 +8,6 @@ import client from "../../api/client";
 
 export default function CardProfile() {
     let { setCurrentUser, setToken, currentUser } = useAuth();
-    console.log(currentUser);
     let oldPassword = useInputValue("oldPassword");
     let password = useInputValue("password");
     let passwordConfirmation = useInputValue("passwordConfirmation");
@@ -20,9 +19,9 @@ export default function CardProfile() {
 
         client("/api/profile/password", {
             body: {
-                old_password: oldPassword.value,
-                password: password.value,
-                password_confirmation: passwordConfirmation.value
+                old_password: oldPassword.value ? oldPassword.value : "",
+                password: password.value ? password.value : "",
+                password_confirmation: passwordConfirmation.value ? passwordConfirmation.value : ""
             }
         })
             .then(({ data: user }) => {
@@ -57,7 +56,7 @@ export default function CardProfile() {
                                                 : ""
                                         }`}
                                         placeholder=" "
-                                        id="name"
+                                        id="oldPassword"
                                         name="oldPassword"
                                         required
                                         {...oldPassword.bind}

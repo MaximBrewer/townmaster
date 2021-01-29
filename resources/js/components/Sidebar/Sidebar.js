@@ -11,7 +11,8 @@ import {
     ProfileSidebarIcon,
     CompaniesSidebarIcon,
     CompanyAddSidebarIcon,
-    SupportSidebarIcon
+    SupportSidebarIcon,
+    CompanySidebarIcon
 } from "../../Icons";
 
 export default function Sidebar({ sideBarOpen }) {
@@ -29,18 +30,120 @@ export default function Sidebar({ sideBarOpen }) {
     return (
         <div
             className={
-                `w-1/2 md:w-1/3 lg:w-84 fixed md:top-0 md:left-0 h-screen lg:block bg-gray-100 border-r z-30` +
+                `flex-col w-1/2 md:w-1/3 lg:w-84 fixed md:top-0 md:left-0 h-screen lg:flex bg-gray-100 border-r z-30` +
                 (sideBarOpen ? `` : ` hidden`)
             }
             id="main-nav"
         >
-            <div className="w-full h-20 border-b flex px-4 items-center mb-8 shadow-lg">
-                <p className="font-semibold text-3xl text-gray-600">
+            <div className="w-full mb-8">
+                <p className="font-semibold text-3xl text-gray-600 h-20 flex items-center border-b px-4 shadow-lg">
                     Таун&nbsp;Мастер
                 </p>
             </div>
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col overflow-y-auto flex-grow">
                 <div className="mb-4 flex-grow">
+                    {currentUser.company ? (
+                        <div className="border-b w-full items-center cursor-pointer">
+                            <NavLink
+                                to={`/personal/company`}
+                                className={`py-4 block flex hover:bg-gray-200 w-full px-4`}
+                                activeClassName="bg-gray-200"
+                            >
+                                <div className="h-6 w-6 fill-current mr-2">
+                                    <CompanySidebarIcon />
+                                </div>
+                                <span className={`text-gray-700 truncate"`}>
+                                    <strong>{currentUser.company.title}</strong>
+                                </span>
+                            </NavLink>
+                            <NavLink
+                                to={`/personal/company/accounting`}
+                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                activeClassName="bg-gray-200"
+                            >
+                                <div className="h-6 w-6 fill-current mr-2">
+                                    <CompanySidebarIcon />
+                                </div>
+                                <span className={`text-gray-700 truncate"`}>
+                                    Данные учета отходов
+                                </span>
+                            </NavLink>
+                            <NavLink
+                                to={`/personal/company/primary`}
+                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                activeClassName="bg-gray-200"
+                            >
+                                <div className="h-6 w-6 fill-current mr-2">
+                                    <CompanySidebarIcon />
+                                </div>
+                                <span className={`text-gray-700 truncate"`}>
+                                    Первичный учет выбросов
+                                </span>
+                            </NavLink>
+                            <NavLink
+                                to={`/personal/company/consumption`}
+                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                activeClassName="bg-gray-200"
+                            >
+                                <div className="h-6 w-6 fill-current mr-2">
+                                    <CompanySidebarIcon />
+                                </div>
+                                <span className={`text-gray-700 truncate"`}>
+                                    Учет водопотребления
+                                </span>
+                            </NavLink>
+                            <NavLink
+                                to={`/personal/company/disposal`}
+                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                activeClassName="bg-gray-200"
+                            >
+                                <div className="h-6 w-6 fill-current mr-2">
+                                    <CompanySidebarIcon />
+                                </div>
+                                <span className={`text-gray-700 truncate"`}>
+                                    Учет водоотведения
+                                </span>
+                            </NavLink>
+                            <NavLink
+                                to={`/personal/company/tp`}
+                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                activeClassName="bg-gray-200"
+                            >
+                                <div className="h-6 w-6 fill-current mr-2">
+                                    <CompanySidebarIcon />
+                                </div>
+                                <span className={`text-gray-700 truncate"`}>
+                                    2-ТП (отходы)
+                                </span>
+                            </NavLink>
+                            <NavLink
+                                to={`/personal/company/nvos`}
+                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                activeClassName="bg-gray-200"
+                            >
+                                <div className="h-6 w-6 fill-current mr-2">
+                                    <CompanySidebarIcon />
+                                </div>
+                                <span className={`text-gray-700 truncate"`}>
+                                    Декларация за НВОС
+                                </span>
+                            </NavLink>
+                            <NavLink
+                                to={`/personal/company/pek`}
+                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                activeClassName="bg-gray-200"
+                            >
+                                <div className="h-6 w-6 fill-current mr-2">
+                                    <CompanySidebarIcon />
+                                </div>
+                                <span className={`text-gray-700 truncate"`}>
+                                    Отчет ПЭК, ПЭК
+                                </span>
+                            </NavLink>
+                        </div>
+                    ) : (
+                        ``
+                    )}
                     <div
                         className={`border-b border-t w-full flex items-center cursor-pointer`}
                     >
@@ -107,8 +210,10 @@ export default function Sidebar({ sideBarOpen }) {
                         </NavLink>
                     </div>
                 </div>
-                <button className="h-12 font-lg px-5 rounded-md text-blue-500 transition-colors duration-150 border-2 border-blue-400 focus:shadow-outline hover:bg-blue-400 hover:text-white">
-                    заполнить вручную
+            </div>
+            <div className="w-full mb-2 px-4 border-t">
+                <button className="w-full mt-4 h-12 font-lg px-5 rounded-md text-red-500 transition-colors duration-150 border-2 border-red-400 focus:shadow-outline hover:bg-red-400 hover:text-white" onClick={handleLogout}>
+                    Выйти
                 </button>
             </div>
         </div>

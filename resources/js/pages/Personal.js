@@ -14,8 +14,16 @@ import CompanyAdd from "./personal/CompanyAdd.js";
 import Companies from "./personal/Companies.js";
 import Profile from "./personal/Profile.js";
 import Support from "./personal/Support.js";
+import Home from "./personal/company/Home";
+import Accounting from "./personal/company/Accounting";
+import Primary from "./personal/company/Primary";
+import Consumption from "./personal/company/Consumption";
+import Disposal from "./personal/company/Disposal";
+import Tp from "./personal/company/Tp";
+import Nvos from "./personal/company/Nvos";
+import Pek from "./personal/company/Pek";
 
-export default function Personal() {
+export default function Personal(props) {
     const [sideBarOpen, setSideBarOpen] = useState(false);
     let { setCurrentUser, setToken, currentUser } = useAuth();
     const toggleSideBar = () => {
@@ -51,6 +59,11 @@ export default function Personal() {
                     />
                     <div className="p-6 bg-gray-100 mb-20 flex flex-col flex-grow">
                         <Switch>
+                            <Redirect
+                                exact
+                                from="/personal/company"
+                                to="/personal/company/home"
+                            />
                             <Route
                                 path="/personal/profile"
                                 component={Profile}
@@ -64,7 +77,7 @@ export default function Personal() {
                                 exact
                                 component={Companies}
                             />
-                            <Route path="/personal/company-add" exact>
+                            <Route exact path="/personal/company-add">
                                 <CompanyAdd
                                     searchResult={searchResult}
                                     setSearchResult={setSearchResult}
@@ -72,20 +85,46 @@ export default function Personal() {
                                     setCompany={setCompany}
                                 />
                             </Route>
+                            <Route path="/personal/company/home">
+                                <Home {...props} setCompany={setCompany}/>
+                            </Route>
+                            <Route path="/personal/company/accounting">
+                                <Accounting {...props} />
+                            </Route>
+                            <Route path="/personal/company/primary">
+                                <Primary {...props} />
+                            </Route>
+                            <Route path="/personal/company/consumption">
+                                <Consumption {...props} />
+                            </Route>
+                            <Route path="/personal/company/disposal">
+                                <Disposal {...props} />
+                            </Route>
+                            <Route path="/personal/company/tp">
+                                <Tp {...props} />
+                            </Route>
+                            <Route path="/personal/company/nvos">
+                                <Nvos {...props} />
+                            </Route>
+                            <Route path="/personal/company/pek">
+                                <Pek {...props} />
+                            </Route>
                             <Route
                                 path="/personal/support"
                                 exact
                                 component={Support}
                             />
-                            {currentUser ? (
+                            {!currentUser.company ? (
                                 <Redirect
+                                    exact
                                     from="/personal"
                                     to="/personal/company-add"
                                 />
                             ) : (
                                 <Redirect
                                     from="/personal"
-                                    to="/personal/companies"
+                                    exact
+                                    to="/personal/company"
                                 />
                             )}
                         </Switch>

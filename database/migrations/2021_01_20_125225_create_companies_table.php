@@ -28,6 +28,10 @@ class CreateCompaniesTable extends Migration
             $table->string('fax')->nullable();
             $table->string('email')->nullable();
             $table->text('address')->nullable();
+            $table->string('okato')->nullable();
+            $table->string('oktmo')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('okpo')->nullable();
             $table->enum('industry', ['other', 'processing', 'mining'])->default('other');
             $table->boolean('activity')->nullable();
             $table->boolean('waste')->nullable();

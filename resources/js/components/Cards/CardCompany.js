@@ -11,28 +11,95 @@ import Select from "react-select";
 export default function CardCompany({ company, setCompany }) {
     let { setCurrentUser, setToken, currentUser } = useAuth();
 
-    let title = useInputValue("title", company ? company.name.short_with_opf : "");
+    const customStyles = {
+        option: (provided, state) => ({
+            ...provided,
+            backgroundColor: "transition"
+        }),
+        valueContainer: (provided, state) => ({
+            ...provided,
+            paddingTop: "0.75rem",
+            paddingBottom: "0.75rem",
+            paddingLeft: "1rem",
+            paddingRight: "1rem",
+            backgroundColor: "transition",
+            outline: "none !important"
+        }),
+        menu: (provided, state) => ({
+            ...provided,
+            backgroundColor: "transition"
+        }),
+        menuList: (provided, state) => ({
+            ...provided
+        }),
+        menuPortal: (provided, state) => ({
+            ...provided
+        }),
+        singleValue: (provided, state) => {
+            let rest = {
+                marginLeft: 0,
+                marginRight: 0
+            };
+            return { ...provided, rest };
+        },
+        input: (provided, state) => ({
+            ...provided,
+            margin: 0,
+            padding: 0
+        }),
+        control: (provided, state) => {
+            let rest = {
+                borderRadius: "0.375rem",
+                backgroundColor: "rgba(5, 150, 105, var(--tw-text-opacity))",
+                borderColor: "#e5e7eb",
+                "&:hover": {
+                    borderColor: "#e5e7eb"
+                }
+            };
+            return { ...provided, ...rest };
+        },
+        dropdownIndicator: (provided, state) => ({
+            ...provided
+            // color: "#ffffff",
+            // "&:hover": {
+            //     color: "#ffffff"
+            // }
+        }),
+        placeholder: (provided, state) => ({
+            ...provided
+            // color: "#ffffff"
+        }),
+        indicatorSeparator: (provided, state) => ({
+            ...provided
+            // width: 0
+        }),
+        indicatorsContainer: (provided, state) => ({
+            ...provided
+        })
+    };
+
+    let title = useInputValue("title", company ? company.title : "");
     let fulltitle = useInputValue(
         "fulltitle",
-        company ? company.name.full_with_opf : ""
+        company ? company.fulltitle : ""
     );
-    let inn = useInputValue("inn", company ? company.inn : "");
-    let kpp = useInputValue("kpp", company ? company.kpp : "");
-    let ogrn = useInputValue("ogrn", company ? company.ogrn : "");
-    let guiv = useInputValue("guiv", company ? company.guiv : "");
-    let okved = useInputValue("okved", company ? company.okved : "");
-    let phone = useInputValue("phone", company ? company.phone : "");
-    let fax = useInputValue("fax", company ? company.fax : "");
-    let email = useInputValue("email", company ? company.email : "");
-    let address = useInputValue("address", company ? company.address.unrestricted_value : "");
+    let inn = useInputValue("inn", company && company.inn ? company.inn : "");
+    let kpp = useInputValue("kpp", company && company.kpp ? company.kpp : "");
+    let ogrn = useInputValue("ogrn", company && company.ogrn ? company.ogrn : "");
+    let guiv = useInputValue("guiv", company && company.guiv ? company.guiv : "");
+    let okved = useInputValue("okved", company && company.okved ? company.okved : "");
+    let phone = useInputValue("phone", company && company.phone ? company.phone : "");
+    let fax = useInputValue("fax", company && company.fax ? company.fax : "");
+    let email = useInputValue("email", company && company.email ? company.email : "");
+    let address = useInputValue("address", company && company.address ? company.address : "");
 
     const [showAlert, setShowAlert] = useState(false);
 
     const handleSubmit = e => {
         e.preventDefault();
-        licensies = [];
 
-        client("/api/profile/password", {
+        client(`/api/companies${company.id ? `/${company.id}` : ``}`, {
+            method: company.id ? 'PATCH' : 'POST',
             body: {
                 type_id: type.value,
                 title: title.value,
@@ -49,10 +116,17 @@ export default function CardCompany({ company, setCompany }) {
                 activity: activity.value,
                 waste: waste.value,
                 registration: registration.value,
-                licensies: licensies
+                licensies: company.licensies
             }
         })
-            .then(({ data: user }) => {
+            .then(({ company }) => {
+                setCurrentUser(prevState => {
+                    prevState.companies.push(company)
+                    return {
+                        ...prevState,
+                        company: company
+                    };
+                });
                 setShowAlert(true);
             })
             .catch(error => {
@@ -81,16 +155,49 @@ export default function CardCompany({ company, setCompany }) {
     };
 
     const typeOptions = [
-        { value: "LEGAL", label: "Юридическое лицо" },
+        { value: 1, label: "Юридическое лицо" },
         { value: 2, label: "Физическое лицо" },
-        { value: 50102, label: "Индивидуальный предприниматель" },
-        { value: 50101, label: "Глава крестьянского (фермерского) хозяйства" }
+        { value: 3, label: "Индивидуальный предприниматель" },
+        { value: 4, label: "Глава крестьянского (фермерского) хозяйства" }
+    ];
+
+    const industryOptions = [
+        { value: "other", label: "Прочие" },
+        { value: "processing", label: "Перерабатывающая промышленность" },
+        { value: "mining", label: "Добывающая промышленность" }
     ];
 
     const [type, setType] = useState({
-        value: company ? company.opf.code : 1,
+        value: company ? company.type_id : 1,
         error: ""
     });
+
+    const [industry, setIndustry] = useState({
+        value: company ? company.industry : "other",
+        error: ""
+    });
+
+    const [registration, setRegistration] = useState({
+        value: company ? company.registration * 1 : 0,
+        error: ""
+    });
+
+    const [activity, setActivity] = useState({
+        value: company ? company.activity * 1 : 0,
+        error: ""
+    });
+
+    const [waste, setWaste] = useState({
+        value: company ? company.waste * 1 : 0,
+        error: ""
+    });
+
+    const handleIndusrtyChange = value => {
+        setIndustry({
+            value: value,
+            error: ""
+        });
+    };
 
     const handleTypeChange = value => {
         setType({
@@ -105,12 +212,15 @@ export default function CardCompany({ company, setCompany }) {
                 <div className="flex-auto py-10 pt-0 w-full lg:w-4/5 xl:w-2/3">
                     <form onSubmit={handleSubmit}>
                         <div className="flex flex-wrap flex-col">
-                            {/* type_id, */}
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <Select
+                                        styles={customStyles}
+                                        className="react-select-container"
+                                        classNamePrefix="react-select"
                                         onChange={handleTypeChange}
                                         options={typeOptions}
+                                        defaultValue={typeOptions[0]}
                                     />
                                     <label
                                         htmlFor="title"
@@ -125,7 +235,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="text"
@@ -151,7 +261,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="text"
@@ -179,7 +289,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="text"
@@ -187,7 +297,7 @@ export default function CardCompany({ company, setCompany }) {
                                             inn.error ? "border-red-500" : ""
                                         }`}
                                         placeholder=" "
-                                        id="name"
+                                        id="inn"
                                         name="inn"
                                         required
                                         {...inn.bind}
@@ -205,7 +315,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="text"
@@ -213,7 +323,7 @@ export default function CardCompany({ company, setCompany }) {
                                             kpp.error ? "border-red-500" : ""
                                         }`}
                                         placeholder=" "
-                                        id="name"
+                                        id="kpp"
                                         name="kpp"
                                         required
                                         {...kpp.bind}
@@ -231,7 +341,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="text"
@@ -239,7 +349,7 @@ export default function CardCompany({ company, setCompany }) {
                                             ogrn.error ? "border-red-500" : ""
                                         }`}
                                         placeholder=" "
-                                        id="name"
+                                        id="ogrn"
                                         name="ogrn"
                                         required
                                         {...ogrn.bind}
@@ -257,7 +367,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="text"
@@ -265,7 +375,7 @@ export default function CardCompany({ company, setCompany }) {
                                             guiv.error ? "border-red-500" : ""
                                         }`}
                                         placeholder=" "
-                                        id="name"
+                                        id="ogrn"
                                         name="ogrn"
                                         required
                                         {...guiv.bind}
@@ -283,7 +393,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="text"
@@ -291,7 +401,7 @@ export default function CardCompany({ company, setCompany }) {
                                             okved.error ? "border-red-500" : ""
                                         }`}
                                         placeholder=" "
-                                        id="name"
+                                        id="okved"
                                         name="okved"
                                         required
                                         {...okved.bind}
@@ -309,7 +419,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="text"
@@ -317,7 +427,7 @@ export default function CardCompany({ company, setCompany }) {
                                             phone.error ? "border-red-500" : ""
                                         }`}
                                         placeholder=" "
-                                        id="name"
+                                        id="phone"
                                         name="phone"
                                         required
                                         {...phone.bind}
@@ -335,7 +445,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="text"
@@ -343,7 +453,7 @@ export default function CardCompany({ company, setCompany }) {
                                             fax.error ? "border-red-500" : ""
                                         }`}
                                         placeholder=" "
-                                        id="name"
+                                        id="fax"
                                         name="fax"
                                         required
                                         {...fax.bind}
@@ -361,7 +471,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="email"
@@ -369,7 +479,7 @@ export default function CardCompany({ company, setCompany }) {
                                             email.error ? "border-red-500" : ""
                                         }`}
                                         placeholder=" "
-                                        id="name"
+                                        id="email"
                                         name="email"
                                         required
                                         {...email.bind}
@@ -387,7 +497,7 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
                                     <input
                                         type="text"
@@ -397,7 +507,7 @@ export default function CardCompany({ company, setCompany }) {
                                                 : ""
                                         }`}
                                         placeholder=" "
-                                        id="name"
+                                        id="address"
                                         name="address"
                                         required
                                         {...address.bind}
@@ -415,35 +525,91 @@ export default function CardCompany({ company, setCompany }) {
                                     </p>
                                 )}
                             </div>
-                            <div className="md-input-main w-full lg:w-12/12 my-2">
+                            <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
-                                    <input
-                                        type="text"
-                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
-                                            address.error
-                                                ? "border-red-500"
-                                                : ""
-                                        }`}
-                                        placeholder=" "
-                                        id="name"
-                                        name="address"
-                                        required
-                                        {...address.bind}
+                                    <Select
+                                        styles={customStyles}
+                                        className="react-select-container"
+                                        classNamePrefix="react-select"
+                                        onChange={handleIndusrtyChange}
+                                        options={industryOptions}
+                                        defaultValue={industryOptions[0]}
                                     />
                                     <label
-                                        htmlFor="address"
+                                        htmlFor="title"
                                         className="md-label bg-gray-100 px-1"
                                     >
-                                        Факс
+                                        Вид промышленности
                                     </label>
                                 </div>
-                                {address.error && (
-                                    <p className="text-red-500 text-xs pt-2">
-                                        {address.error}
-                                    </p>
-                                )}
                             </div>
-                            industry, activity, waste, registration
+                            <div className="md-input-main w-full my-2">
+                                <input
+                                    id="activity"
+                                    type="checkbox"
+                                    name="activity"
+                                    className="hidden"
+                                    onChange={e => {
+                                        setActivity({
+                                            value: e.target.checked * 1,
+                                            error: ""
+                                        });
+                                    }}
+                                />
+                                <label
+                                    htmlFor="activity"
+                                    className="flex items-center cursor-pointer color"
+                                >
+                                    <span className="w-6 h-6 inline-block mr-2 rounded-md border border-grey flex-no-shrink"></span>
+                                    Осуществляющими деятельность c твердыми
+                                    коммунальными отходами
+                                </label>
+                            </div>
+                            <div className="md-input-main w-full my-2">
+                                <input
+                                    id="waste"
+                                    type="checkbox"
+                                    name="waste"
+                                    className="hidden"
+                                    onChange={e => {
+                                        setWaste({
+                                            value: e.target.checked * 1,
+                                            error: ""
+                                        });
+                                    }}
+                                />
+                                <label
+                                    htmlFor="waste"
+                                    className="flex items-center cursor-pointer color"
+                                >
+                                    <span className="w-6 h-6 inline-block mr-2 rounded-md border border-grey flex-no-shrink"></span>
+                                    Осуществляет деятельность по хранению и
+                                    захоронению отходов на своем объекте
+                                    размещения
+                                </label>
+                            </div>
+                            <div className="md-input-main w-full my-2">
+                                <input
+                                    id="registration"
+                                    type="checkbox"
+                                    name="registration"
+                                    className="hidden"
+                                    onChange={e => {
+                                        setRegistration({
+                                            value: e.target.checked * 1,
+                                            error: ""
+                                        });
+                                    }}
+                                />
+                                <label
+                                    htmlFor="registration"
+                                    className="flex items-center cursor-pointer color"
+                                >
+                                    <span className="w-6 h-6 inline-block mr-2 rounded-md border border-grey flex-no-shrink"></span>
+                                    Вести учет данных отходов без учета
+                                    контрагентов
+                                </label>
+                            </div>
                         </div>
                         {showAlert ? (
                             <div

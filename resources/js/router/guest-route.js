@@ -5,7 +5,6 @@ import { useAuth } from "../context/auth";
 
 function GuestRoute({ component: Component, title, ...rest }) {
     let { authenticated } = useAuth();
-    console.log(Component.name);
 
     if (authenticated)
         switch (Component.name) {

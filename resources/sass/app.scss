@@ -54,24 +54,25 @@ body::-webkit-scrollbar {
     outline: none;
 }
 .md-label {
-	@apply absolute pointer-events-none block;
+    @apply absolute pointer-events-none block;
     display: block;
     pointer-events: none;
     transform-origin: top left;
     transform: translate(0, 0) scale(1);
     transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
-		transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-		
-	top: 50%;
-	margin-top: -12px;
-	left: 1rem;
-
+        transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    color: rgba(100, 100, 100);
+    top: 50%;
+    margin-top: -12px;
+    left: 1rem;
 }
-.md-input:focus ~ .md-input-underline:after {
+.md-input:focus ~ .md-input-underline:after,
+.react-select-container ~ .md-input-underline:after {
     transform: scaleX(1);
 }
 .md-input:focus + .md-label,
-.md-input:not(:placeholder-shown) + .md-label {
+.md-input:not(:placeholder-shown) + .md-label,
+.react-select-container + .md-label {
     --tw-text-opacity: 1;
     color: rgba(5, 150, 105, var(--tw-text-opacity));
     transform: translate(0, -25px) scale(0.95);
@@ -88,10 +89,26 @@ input[type="radio"] + label:hover span {
 }
 
 input[type="radio"]:checked + label span {
-    background-color: #3490dc; //bg-blue
+    background-color: rgba(5, 150, 105);
     box-shadow: 0px 0px 0px 2px white inset;
 }
 
 input[type="radio"]:checked + label {
-    color: #3490dc; //text-blue
+}
+
+input[type="radio"] + label span {
+    transition: background 0.2s, transform 0.2s;
+}
+
+input[type="checkbox"] + label span:hover,
+input[type="checkbox"] + label:hover span {
+    transform: scale(1.2);
+}
+
+input[type="checkbox"]:checked + label span {
+    background-color: rgba(5, 150, 105);
+    box-shadow: 0px 0px 0px 2px white inset;
+}
+
+input[type="checkbox"]:checked + label {
 }
