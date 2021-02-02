@@ -12,7 +12,12 @@ import {
     CompaniesSidebarIcon,
     CompanyAddSidebarIcon,
     SupportSidebarIcon,
-    CompanySidebarIcon
+    CompanySidebarIcon,
+    AccountingSidebarIcon,
+    ConsumptionSidebarIcon,
+    PrimarySidebarIcon,
+    DisposalSidebarIcon,
+    OtherSidebarIcon
 } from "../../Icons";
 
 export default function Sidebar({ sideBarOpen }) {
@@ -56,90 +61,92 @@ export default function Sidebar({ sideBarOpen }) {
                                     <strong>{currentUser.company.title}</strong>
                                 </span>
                             </NavLink>
-                            <NavLink
-                                to={`/personal/company/accounting`}
-                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
-                                activeClassName="bg-gray-200"
-                            >
-                                <div className="h-6 w-6 fill-current mr-2">
-                                    <CompanySidebarIcon />
-                                </div>
-                                <span className={`text-gray-700 truncate"`}>
-                                    Данные учета отходов
-                                </span>
-                            </NavLink>
-                            <NavLink
-                                to={`/personal/company/primary`}
-                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
-                                activeClassName="bg-gray-200"
-                            >
-                                <div className="h-6 w-6 fill-current mr-2">
-                                    <CompanySidebarIcon />
-                                </div>
-                                <span className={`text-gray-700 truncate"`}>
-                                    Первичный учет выбросов
-                                </span>
-                            </NavLink>
-                            <NavLink
-                                to={`/personal/company/consumption`}
-                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
-                                activeClassName="bg-gray-200"
-                            >
-                                <div className="h-6 w-6 fill-current mr-2">
-                                    <CompanySidebarIcon />
-                                </div>
-                                <span className={`text-gray-700 truncate"`}>
-                                    Учет водопотребления
-                                </span>
-                            </NavLink>
-                            <NavLink
-                                to={`/personal/company/disposal`}
-                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
-                                activeClassName="bg-gray-200"
-                            >
-                                <div className="h-6 w-6 fill-current mr-2">
-                                    <CompanySidebarIcon />
-                                </div>
-                                <span className={`text-gray-700 truncate"`}>
-                                    Учет водоотведения
-                                </span>
-                            </NavLink>
-                            <NavLink
-                                to={`/personal/company/tp`}
-                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
-                                activeClassName="bg-gray-200"
-                            >
-                                <div className="h-6 w-6 fill-current mr-2">
-                                    <CompanySidebarIcon />
-                                </div>
-                                <span className={`text-gray-700 truncate"`}>
-                                    2-ТП (отходы)
-                                </span>
-                            </NavLink>
-                            <NavLink
-                                to={`/personal/company/nvos`}
-                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
-                                activeClassName="bg-gray-200"
-                            >
-                                <div className="h-6 w-6 fill-current mr-2">
-                                    <CompanySidebarIcon />
-                                </div>
-                                <span className={`text-gray-700 truncate"`}>
-                                    Декларация за НВОС
-                                </span>
-                            </NavLink>
-                            <NavLink
-                                to={`/personal/company/pek`}
-                                className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
-                                activeClassName="bg-gray-200"
-                            >
-                                <div className="h-6 w-6 fill-current mr-2">
-                                    <CompanySidebarIcon />
-                                </div>
-                                <span className={`text-gray-700 truncate"`}>
-                                    Отчет ПЭК, ПЭК
-                                </span>
-                            </NavLink>
+                            <div className="pl-2 text-sm pb-4">
+                                <NavLink
+                                    to={`/personal/company/accounting`}
+                                    className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                    activeClassName="bg-gray-200"
+                                >
+                                    <div className="h-6 w-6 fill-current mr-2">
+                                        <AccountingSidebarIcon />
+                                    </div>
+                                    <span className={`text-gray-700 truncate"`}>
+                                        Данные учета отходов
+                                    </span>
+                                </NavLink>
+                                <NavLink
+                                    to={`/personal/company/primary`}
+                                    className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                    activeClassName="bg-gray-200"
+                                >
+                                    <div className="h-6 w-6 fill-current mr-2">
+                                        <PrimarySidebarIcon />
+                                    </div>
+                                    <span className={`text-gray-700 truncate"`}>
+                                        Первичный учет выбросов
+                                    </span>
+                                </NavLink>
+                                <NavLink
+                                    to={`/personal/company/consumption`}
+                                    className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                    activeClassName="bg-gray-200"
+                                >
+                                    <div className="h-6 w-6 fill-current mr-2">
+                                        <ConsumptionSidebarIcon />
+                                    </div>
+                                    <span className={`text-gray-700 truncate"`}>
+                                        Учет водопотребления
+                                    </span>
+                                </NavLink>
+                                <NavLink
+                                    to={`/personal/company/disposal`}
+                                    className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                    activeClassName="bg-gray-200"
+                                >
+                                    <div className="h-6 w-6 fill-current mr-2">
+                                        <DisposalSidebarIcon />
+                                    </div>
+                                    <span className={`text-gray-700 truncate"`}>
+                                        Учет водоотведения
+                                    </span>
+                                </NavLink>
+                                <NavLink
+                                    to={`/personal/company/tp`}
+                                    className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                    activeClassName="bg-gray-200"
+                                >
+                                    <div className="h-6 w-6 fill-current mr-2">
+                                        <OtherSidebarIcon />
+                                    </div>
+                                    <span className={`text-gray-700 truncate"`}>
+                                        2-ТП (отходы)
+                                    </span>
+                                </NavLink>
+                                <NavLink
+                                    to={`/personal/company/nvos`}
+                                    className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                    activeClassName="bg-gray-200"
+                                >
+                                    <div className="h-6 w-6 fill-current mr-2">
+                                        <OtherSidebarIcon />
+                                    </div>
+                                    <span className={`text-gray-700 truncate"`}>
+                                        Декларация за НВОС
+                                    </span>
+                                </NavLink>
+                                <NavLink
+                                    to={`/personal/company/pek`}
+                                    className={`py-2 block flex hover:bg-gray-200 w-full px-4`}
+                                    activeClassName="bg-gray-200"
+                                >
+                                    <div className="h-6 w-6 fill-current mr-2">
+                                        <OtherSidebarIcon />
+                                    </div>
+                                    <span className={`text-gray-700 truncate"`}>
+                                        Отчет ПЭК, ПЭК
+                                    </span>
+                                </NavLink>
+                            </div>
                         </div>
                     ) : (
                         ``
@@ -212,7 +219,10 @@ export default function Sidebar({ sideBarOpen }) {
                 </div>
             </div>
             <div className="w-full mb-2 px-4 border-t">
-                <button className="w-full mt-4 h-12 font-lg px-5 rounded-md text-red-500 transition-colors duration-150 border-2 border-red-400 focus:shadow-outline hover:bg-red-400 hover:text-white" onClick={handleLogout}>
+                <button
+                    className="w-full mt-4 h-12 font-lg px-5 rounded-md text-red-500 transition-colors duration-150 border-2 border-red-400 focus:shadow-outline hover:bg-red-400 hover:text-white"
+                    onClick={handleLogout}
+                >
                     Выйти
                 </button>
             </div>
