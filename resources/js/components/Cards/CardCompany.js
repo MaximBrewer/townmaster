@@ -144,7 +144,7 @@ export default function CardCompany({ company, setCompany }) {
                 fax: fax.value,
                 email: email.value,
                 address: address,
-                industry: industry.value,
+                industry: industry.value.value,
                 activity: activity.value,
                 waste: waste.value,
                 registration: registration.value,
