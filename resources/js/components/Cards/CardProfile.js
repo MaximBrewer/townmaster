@@ -65,7 +65,7 @@ export default function CardProfile() {
                                     />
                                     <label
                                         htmlFor="name"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         Фамилия
                                     </label>
@@ -95,7 +95,7 @@ export default function CardProfile() {
                                     />
                                     <label
                                         htmlFor="lastname"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         Имя
                                     </label>
@@ -125,7 +125,7 @@ export default function CardProfile() {
                                     />
                                     <label
                                         htmlFor="surname"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         Отчество
                                     </label>
@@ -153,7 +153,7 @@ export default function CardProfile() {
                                     />
                                     <label
                                         htmlFor="phone"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         Телефон
                                     </label>

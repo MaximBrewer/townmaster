@@ -12,6 +12,7 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
+    'The given data was invalid.' => 'Полученные данные не верны.',
 
     'accepted'        => 'Вы должны принять :attribute.',
     'active_url'      => 'Поле :attribute содержит недействительный URL.',

@@ -63,7 +63,7 @@ export default function CardProfile() {
                                     />
                                     <label
                                         htmlFor="oldPassword"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white px-1"
                                     >
                                         Текущий пароль
                                     </label>
@@ -93,7 +93,7 @@ export default function CardProfile() {
                                     />
                                     <label
                                         htmlFor="password"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white px-1"
                                     >
                                         Новый пароль
                                     </label>
@@ -123,7 +123,7 @@ export default function CardProfile() {
                                     />
                                     <label
                                         htmlFor="password-confirmation"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white px-1"
                                     >
                                         Подтвердите пароль
                                     </label>

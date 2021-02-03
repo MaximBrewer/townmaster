@@ -37662,7 +37662,6 @@ body::-webkit-scrollbar {
   color: #646464;
   top: 50%;
   margin-top: -12px;
-  left: 1rem;
 }
 
 .md-input:focus ~ .md-input-underline:after,

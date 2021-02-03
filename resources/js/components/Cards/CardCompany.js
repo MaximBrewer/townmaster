@@ -1,14 +1,16 @@
 import { useScrollTrigger } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../context/auth";
 import useInputValue from "../../components/input-value";
 import client from "../../api/client";
 
 import Select from "react-select";
+import AddressField from "../Fields/AddressField";
 
 // components
 
 export default function CardCompany({ company, setCompany }) {
+
     let { setCurrentUser, setToken, currentUser } = useAuth();
 
     const customStyles = {
@@ -85,13 +87,43 @@ export default function CardCompany({ company, setCompany }) {
     );
     let inn = useInputValue("inn", company && company.inn ? company.inn : "");
     let kpp = useInputValue("kpp", company && company.kpp ? company.kpp : "");
-    let ogrn = useInputValue("ogrn", company && company.ogrn ? company.ogrn : "");
-    let guiv = useInputValue("guiv", company && company.guiv ? company.guiv : "");
-    let okved = useInputValue("okved", company && company.okved ? company.okved : "");
-    let phone = useInputValue("phone", company && company.phone ? company.phone : "");
+    let ogrn = useInputValue(
+        "ogrn",
+        company && company.ogrn ? company.ogrn : ""
+    );
+    let guiv = useInputValue(
+        "guiv",
+        company && company.guiv ? company.guiv : ""
+    );
+    let okved = useInputValue(
+        "okved",
+        company && company.okved ? company.okved : ""
+    );
+    let phone = useInputValue(
+        "phone",
+        company && company.phone ? company.phone : ""
+    );
     let fax = useInputValue("fax", company && company.fax ? company.fax : "");
-    let email = useInputValue("email", company && company.email ? company.email : "");
-    let address = useInputValue("address", company && company.address ? company.address : "");
+    let email = useInputValue(
+        "email",
+        company && company.email ? company.email : ""
+    );
+
+    const [address, setAddress] = useState(
+        company && company.address
+            ? {
+                  value: company.address ? company.address : "",
+                  okato: company.okato ? company.okato : "",
+                  oktmo: company.oktmo ? company.oktmo : "",
+                  postal_code: company.postal_code ? company.postal_code : ""
+              }
+            : {
+                  value: "",
+                  okato: "",
+                  oktmo: "",
+                  postal_code: ""
+              }
+    );
 
     const [showAlert, setShowAlert] = useState(false);
 
@@ -99,7 +131,7 @@ export default function CardCompany({ company, setCompany }) {
         e.preventDefault();
 
         client(`/api/companies${company.id ? `/${company.id}` : ``}`, {
-            method: company.id ? 'PATCH' : 'POST',
+            method: company.id ? "PATCH" : "POST",
             body: {
                 type_id: type.value,
                 title: title.value,
@@ -111,7 +143,7 @@ export default function CardCompany({ company, setCompany }) {
                 phone: phone.value,
                 fax: fax.value,
                 email: email.value,
-                address: address.value,
+                address: address,
                 industry: industry.value,
                 activity: activity.value,
                 waste: waste.value,
@@ -121,9 +153,13 @@ export default function CardCompany({ company, setCompany }) {
         })
             .then(({ company }) => {
                 setCurrentUser(prevState => {
-                    prevState.companies.push(company)
+                    let companies = [company];
+                    for (let c of prevState.companies)
+                        if (c.id != company.id)
+                            prevState.companies.push(company);
                     return {
                         ...prevState,
+                        companies: companies,
                         company: company
                     };
                 });
@@ -224,7 +260,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="title"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         Тип
                                     </label>
@@ -250,7 +286,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="title"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         Название организации
                                     </label>
@@ -278,7 +314,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="fulltitle"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         Полное название
                                     </label>
@@ -304,7 +340,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="inn"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         ИНН
                                     </label>
@@ -330,7 +366,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="kpp"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         КПП
                                     </label>
@@ -356,7 +392,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="ogrn"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         ОГРН
                                     </label>
@@ -382,7 +418,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="guiv"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         ГУИВ
                                     </label>
@@ -408,7 +444,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="okved"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         ОКВЭД
                                     </label>
@@ -434,7 +470,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="phone"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         Телефон
                                     </label>
@@ -460,7 +496,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="fax"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         Факс
                                     </label>
@@ -486,7 +522,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="email"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         E-mail
                                     </label>
@@ -498,32 +534,10 @@ export default function CardCompany({ company, setCompany }) {
                                 )}
                             </div>
                             <div className="md-input-main w-full my-2">
-                                <div className={`md-input-box`}>
-                                    <input
-                                        type="text"
-                                        className={`md-input bg-transparent py-3 px-4 border rounded-md ${
-                                            address.error
-                                                ? "border-red-500"
-                                                : ""
-                                        }`}
-                                        placeholder=" "
-                                        id="address"
-                                        name="address"
-                                        required
-                                        {...address.bind}
-                                    />
-                                    <label
-                                        htmlFor="address"
-                                        className="md-label bg-gray-100 px-1"
-                                    >
-                                        Адрес
-                                    </label>
-                                </div>
-                                {address.error && (
-                                    <p className="text-red-500 text-xs pt-2">
-                                        {address.error}
-                                    </p>
-                                )}
+                                <AddressField
+                                    address={address}
+                                    setAddress={setAddress}
+                                />
                             </div>
                             <div className="md-input-main w-full my-2">
                                 <div className={`md-input-box`}>
@@ -537,7 +551,7 @@ export default function CardCompany({ company, setCompany }) {
                                     />
                                     <label
                                         htmlFor="title"
-                                        className="md-label bg-gray-100 px-1"
+                                        className="md-label bg-white left-4 px-1"
                                     >
                                         Вид промышленности
                                     </label>

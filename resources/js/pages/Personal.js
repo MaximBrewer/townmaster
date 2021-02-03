@@ -46,7 +46,7 @@ export default function Personal(props) {
                 />
                 <div
                     className={
-                        `flex  flex-col w-full bg-gray-100 pl-0 lg:pl-84 min-h-screen` +
+                        `flex  flex-col w-full pl-0 lg:pl-84 min-h-screen` +
                         (sideBarOpen ? ` overlay` : ``)
                     }
                     id="main-content"
@@ -57,20 +57,11 @@ export default function Personal(props) {
                         setSearchResult={setSearchResult}
                         searchResult={searchResult}
                     />
-                    <div className="p-6 bg-gray-100 mb-20 flex flex-col flex-grow">
+                    <div className="p-6 mb-20 flex flex-col flex-grow">
                         <Switch>
-                            <Redirect
-                                exact
-                                from="/personal/company"
-                                to="/personal/company/home"
-                            />
                             <Route
                                 path="/personal/profile"
                                 component={Profile}
-                            />
-                            <Redirect
-                                from="/personal/profile"
-                                to="/personal/profile/info"
                             />
                             <Route
                                 path="/personal/companies"
@@ -85,28 +76,28 @@ export default function Personal(props) {
                                     setCompany={setCompany}
                                 />
                             </Route>
-                            <Route path="/personal/company/home">
+                            <Route exact path="/personal/company">
                                 <Home {...props} setCompany={setCompany}/>
                             </Route>
-                            <Route path="/personal/company/accounting">
+                            <Route exact path="/personal/company/accounting">
                                 <Accounting {...props} />
                             </Route>
-                            <Route path="/personal/company/primary">
+                            <Route exact path="/personal/company/primary">
                                 <Primary {...props} />
                             </Route>
-                            <Route path="/personal/company/consumption">
+                            <Route exact path="/personal/company/consumption">
                                 <Consumption {...props} />
                             </Route>
-                            <Route path="/personal/company/disposal">
+                            <Route exact path="/personal/company/disposal">
                                 <Disposal {...props} />
                             </Route>
-                            <Route path="/personal/company/tp">
+                            <Route exact path="/personal/company/tp">
                                 <Tp {...props} />
                             </Route>
-                            <Route path="/personal/company/nvos">
+                            <Route exact path="/personal/company/nvos">
                                 <Nvos {...props} />
                             </Route>
-                            <Route path="/personal/company/pek">
+                            <Route exact path="/personal/company/pek">
                                 <Pek {...props} />
                             </Route>
                             <Route

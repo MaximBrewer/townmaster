@@ -20,7 +20,7 @@ function ForgotPassword () {
   };
 
   return (
-    <div className="flex justify-center items-center w-full py-4 flex-col min-h-screen bg-gray-200">
+    <div className="flex justify-center items-center w-full py-4 flex-col min-h-screen">
       {
         resetFeedback && (
           <div className="bg-white border-l-4 border-blue text-sm text-grey-darker p-4 mb-4 w-3/4 sm:w-1/2 lg:w-2/5 xl:w-1/3" role="alert">
@@ -47,7 +47,7 @@ function ForgotPassword () {
               id="email"
               type="email"
               name="email"
-              className={`appearance-none border rounded w-full py-1 px-3 bg-gray-100 ${email.error ? 'border-red-500' : ''}`}
+              className={`appearance-none border rounded w-full py-1 px-3 ${email.error ? 'border-red-500' : ''}`}
               placeholder="e.g.jane@example.com"
               required
               autoFocus

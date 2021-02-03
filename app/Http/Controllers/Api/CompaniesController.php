@@ -46,13 +46,18 @@ class CompaniesController extends Controller
         $data = $request->all();
         $user = User::find(Auth::id());
 
+        $data['postal_code'] = $data['address']['postal_code'];
+        $data['okato'] = $data['address']['okato'];
+        $data['oktmo'] = $data['address']['oktmo'];
+        $data['address'] = $data['address']['value'];
+
         unset($data['licensies']);
 
         $data['user_id'] = $user->id;
         $company = Company::create($data);
         $user->company()->associate($company);
         $user->save();
-        return ['company' => $company];
+        return ['company' => $company, 'message' => 'Организация добавлена!'];
     }
 
     /**
@@ -86,13 +91,18 @@ class CompaniesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        // $request->validate([
-        //     'inn' => 'unique:companies,user_id,inn'
-        // ]);
+        $request->validate([
+            'inn' => 'required|unique:companies,user_id,inn'
+        ]);
 
         $company = Company::findOrFail($id);
         $data = $request->all();
+
+        $data['postal_code'] = $data['address']['postal_code'];
+        $data['okato'] = $data['address']['okato'];
+        $data['oktmo'] = $data['address']['oktmo'];
+        $data['address'] = $data['address']['value'];
+
         $user = User::find(Auth::id());
 
         unset($data['licensies']);
@@ -101,7 +111,7 @@ class CompaniesController extends Controller
         $company->update($data);
         $user->company()->associate($company);
         $user->save();
-        return ['company' => $company];
+        return ['company' => $company, 'message' => 'Организация обновлена!'];
     }
 
     /**
@@ -145,7 +155,7 @@ class CompaniesController extends Controller
             'phone' => "",
             'fax' => "",
             'email' => "",
-            'address' => $dadata['data']['address']['unrestricted_value'],
+            'address' => $dadata['data']['address']['value'],
             'okato' => $dadata['data']['address']['data']['okato'],
             'oktmo' => $dadata['data']['address']['data']['oktmo'],
             'postal_code' => $dadata['data']['address']['data']['postal_code'],

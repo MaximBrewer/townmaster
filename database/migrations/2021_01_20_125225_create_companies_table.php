@@ -19,7 +19,7 @@ class CreateCompaniesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->string('fulltitle')->nullable();
-            $table->string('inn')->nullable();
+            $table->unsignedBigInteger('inn')->index();
             $table->string('kpp')->nullable();
             $table->string('ogrn')->nullable();
             $table->string('guiv')->nullable();

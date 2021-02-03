@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 
 import { AddCircle as AddCircleIcon, EditCard as EditCardIcon } from "../../Icons";
 
 export default function Companies() {
+    let history = useHistory();
     let { setCurrentUser, setToken, currentUser } = useAuth();
 
     const [show, setShow] = useState(
@@ -12,8 +13,8 @@ export default function Companies() {
     );
 
     return currentUser.companies.length ? (
-        <div className="overflow-hidden">
-            <table className="table-fixed w-full">
+        <div className="overflow-x-auto max-w-screen">
+            <table className="min-w-full whitespace-nowrap">
                 <thead>
                     <tr>
                         <th className="text-left px-4 py-2 text-gray-700 w-12"></th>
@@ -30,7 +31,7 @@ export default function Companies() {
                     {currentUser.companies.map((item, index) => (
                         <React.Fragment key={index}>
                             <tr
-                                className={`cursor-pointer hover:bg-gray-200 ${
+                                className={`cursor-pointer hover:bg-gray-100 ${
                                     show[index] ? `bg-gray-200` : ``
                                 }`}
                                 onClick={e => {
@@ -48,19 +49,16 @@ export default function Companies() {
                                 <td className="border-t border-b border-light-gray-500 px-4 py-2 text-gray-700">
                                     {item.inn}
                                 </td>
-                                <td className="border-t border-b border-light-gray-500 px-4 py-2 text-gray-700">
+                                <td className="border-t border-b border-light-gray-500 py-2   text-gray-700">
                                     <a
+                                        className="py-2 px-4 rounded hover:bg-gray-200 px-4 my-2 inline-block"
                                         onClick={e => {
                                             e.stopPropagation();
-                                            setShow(
-                                                currentUser.companies.map(
-                                                    (item, ix) => false
-                                                )
-                                            );
                                             setCurrentUser(prevState => ({
                                                 ...prevState,
                                                 company: item
                                             }));
+                                            history.push("/personal/company#main")
                                         }}
                                         href="#"
                                     >
@@ -74,77 +72,77 @@ export default function Companies() {
                                 }`}
                             >
                                 <td colSpan="4">
-                                    <table className="w-full mb-4 text-center">
+                                    <table className="w-full mb-4 text-center text-gray-700">
                                         <tbody>
                                             <tr>
-                                                <td rowSpan="3" className="border"></td>
-                                                <td colSpan="12" className="border">
+                                                <td rowSpan="3" className="border px-2 py-2"></td>
+                                                <td colSpan="12" className="border px-2 py-2">
                                                     <b>Данные учета</b>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colSpan="3" className="border">1 квартал</td>
-                                                <td colSpan="3" className="border">2 квартал</td>
-                                                <td colSpan="3" className="border">3 квартал</td>
-                                                <td colSpan="3" className="border">4 квартал</td>
+                                                <td colSpan="3" className="border px-2 py-2">1 квартал</td>
+                                                <td colSpan="3" className="border px-2 py-2">2 квартал</td>
+                                                <td colSpan="3" className="border px-2 py-2">3 квартал</td>
+                                                <td colSpan="3" className="border px-2 py-2">4 квартал</td>
                                             </tr>
                                             <tr>
-                                                <td className="border">Янв</td>
-                                                <td className="border">Фев</td>
-                                                <td className="border">Мар</td>
-                                                <td className="border">Апр</td>
-                                                <td className="border">Май</td>
-                                                <td className="border">Июн</td>
-                                                <td className="border">Июл</td>
-                                                <td className="border">Авг</td>
-                                                <td className="border">Сен</td>
-                                                <td className="border">Окт</td>
-                                                <td className="border">Ноя</td>
-                                                <td className="border">Дек</td>
+                                                <td className="border px-2 py-2">Янв</td>
+                                                <td className="border px-2 py-2">Фев</td>
+                                                <td className="border px-2 py-2">Мар</td>
+                                                <td className="border px-2 py-2">Апр</td>
+                                                <td className="border px-2 py-2">Май</td>
+                                                <td className="border px-2 py-2">Июн</td>
+                                                <td className="border px-2 py-2">Июл</td>
+                                                <td className="border px-2 py-2">Авг</td>
+                                                <td className="border px-2 py-2">Сен</td>
+                                                <td className="border px-2 py-2">Окт</td>
+                                                <td className="border px-2 py-2">Ноя</td>
+                                                <td className="border px-2 py-2">Дек</td>
                                             </tr>
                                             <tr>
-                                                <td className="w-1/4 text-left border">
+                                                <td className="w-1/4 text-left border px-2 py-2">
                                                     <b>{item.title}</b>
                                                 </td>
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020">
-                                                        <AddCircleIcon className="w-6" />
+                                                        <AddCircleIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020"
                                                     >
-                                                        <AddCircleIcon className="w-6" />
+                                                        <AddCircleIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020"
                                                     >
-                                                        <AddCircleIcon className="w-6" />
+                                                        <AddCircleIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020"
                                                     >
-                                                        <EditCardIcon className="w-6" />
+                                                        <EditCardIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020"
                                                     >
-                                                        <EditCardIcon className="w-6" />
+                                                        <EditCardIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         target="_blank"
                                                         data-bind="attr: {href: $parent.link}, tippy:true"
@@ -152,55 +150,55 @@ export default function Companies() {
                                                         data-tippy=""
                                                         data-original-title="Отчетный период не заполнен<br/>(нажмите для редактирования)"
                                                     >
-                                                        <EditCardIcon className="w-6" />
+                                                        <EditCardIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020"
                                                     >
-                                                        <AddCircleIcon className="w-6" />
+                                                        <AddCircleIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020"
                                                     >
-                                                        <AddCircleIcon className="w-6" />
+                                                        <AddCircleIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020"
                                                     >
-                                                        <AddCircleIcon className="w-6" />
+                                                        <AddCircleIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020"
                                                     >
-                                                        <EditCardIcon className="w-6" />
+                                                        <EditCardIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020"
                                                     >
-                                                        <EditCardIcon className="w-6" />
+                                                        <EditCardIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
 
-                                                <td className="border">
+                                                <td className="border px-2 py-2">
                                                     <a
                                                         className="flex justify-center" href="/waste-org/9a0e22f4-35cf-4b2b-a51f-729ca9359ba1/accounting?placeId=d1ac0c89-bcfe-4252-b73c-7e0cc68ac088&amp;selectedYear=2020"
                                                     >
-                                                        <EditCardIcon className="w-6" />
+                                                        <EditCardIcon className="w-6 fill-current" />
                                                     </a>
                                                 </td>
                                             </tr>

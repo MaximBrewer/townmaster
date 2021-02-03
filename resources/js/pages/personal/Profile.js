@@ -46,14 +46,9 @@ export default function Profile() {
                 >
                     <li className="-mb-px sm:w-1/3 last:mr-0 flex-auto text-center">
                         <a
-                            className={
-                                "text-xs mr-2 font-bold border-b-4 uppercase px-2 py-3 block leading-normal text-" +
-                                color +
-                                "-600 " +
-                                (openTab === 1
-                                    ? "border-" + color + "-600"
-                                    : "")
-                            }
+                            className={`text-xs mr-2 font-bold border-b-4 uppercase px-2 py-3 block ${
+                                openTab === 1 ? `border-${color}-600 text-${color}-600` : ``
+                            }`}
                             onClick={e => {
                                 e.preventDefault();
                                 setOpenTab(1);
@@ -68,14 +63,9 @@ export default function Profile() {
                     </li>
                     <li className="-mb-px sm:w-1/3 last:mr-0 flex-auto text-center">
                         <a
-                            className={
-                                "text-xs mr-2 font-bold border-b-4 uppercase px-2 py-3 block leading-normal text-" +
-                                color +
-                                "-600 " +
-                                (openTab === 2
-                                    ? "border-" + color + "-600"
-                                    : "")
-                            }
+                            className={`text-xs mr-2 font-bold border-b-4 uppercase px-2 py-3 block ${
+                                openTab === 2 ? `border-${color}-600 text-${color}-600` : ``
+                            }`}
                             onClick={e => {
                                 e.preventDefault();
                                 setOpenTab(2);
@@ -90,14 +80,9 @@ export default function Profile() {
                     </li>
                     <li className="-mb-px sm:w-1/3 last:mr-0 flex-auto text-center">
                         <a
-                            className={
-                                "text-xs mr-2 font-bold border-b-4 uppercase px-2 py-3 block leading-normal text-" +
-                                color +
-                                "-600 " +
-                                (openTab === 3
-                                    ? "border-" + color + "-600"
-                                    : "")
-                            }
+                            className={`text-xs mr-2 font-bold border-b-4 uppercase px-2 py-3 block ${
+                                openTab === 3 ? `border-${color}-600 text-${color}-600` : ``
+                            }`}
                             onClick={e => {
                                 e.preventDefault();
                                 setOpenTab(3);
@@ -135,7 +120,7 @@ export default function Profile() {
                         </div>
 
                         {currentUser && !currentUser.companies.length ? (
-                            <div className="text-green-500 px-6 py-4 border-2 rounded relative mb-4 border-green-500">
+                            <div className="text-green-600 px-6 py-4 border-2 rounded relative mb-4 border-green-500">
                                 Чтобы начать вести учет отходов, нажмите кнопку
                                 в левом меню{" "}
                                 <Link

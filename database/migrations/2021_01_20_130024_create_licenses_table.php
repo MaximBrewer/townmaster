@@ -15,13 +15,13 @@ class CreateLicensesTable extends Migration
     {
         Schema::create('licenses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('company_inn');
             $table->string('number');
             $table->timestamp('date');
             $table->string('authority');
             $table->timestamps();
 
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('company_inn')->references('inn')->on('companies');
         });
     }
 

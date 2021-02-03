@@ -27,7 +27,7 @@ function Login () {
   };
 
   return (
-    <div className="flex justify-center items-center w-full py-4 flex-col min-h-screen bg-gray-200">
+    <div className="flex justify-center items-center w-full py-4 flex-col min-h-screen">
       <div className="p-8 flex flex-col items-center">
         <div className="text-2xl leading-loose">Войти в аккаунт</div>
         <div className="text-gray-800">
@@ -47,7 +47,7 @@ function Login () {
               id="email"
               type="email"
               name="email"
-              className={`appearance-none border rounded w-full py-1 px-3 text-grey-darker bg-gray-100 ${email.error ? 'border-red-500' : ''}`}
+              className={`appearance-none border rounded w-full py-1 px-3 text-grey-darker ${email.error ? 'border-red-500' : ''}`}
               required
               autoFocus
               {...email.bind}
@@ -62,7 +62,7 @@ function Login () {
               type="password"
               id="password"
               name="password"
-              className="appearance-none border rounded w-full py-1 px-3 text-grey-darker bg-gray-100"
+              className="appearance-none border rounded w-full py-1 px-3 text-grey-darker"
               required
               {...password.bind}
             />

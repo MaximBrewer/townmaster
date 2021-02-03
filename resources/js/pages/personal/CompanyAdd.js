@@ -58,7 +58,7 @@ export default function CompanyAdd({
                                                 setShowForm(true);
                                             }}
                                             key={index}
-                                            className="cursor-pointer hover:bg-gray-200"
+                                            className="cursor-pointer hover:bg-gray-100"
                                         >
                                             <td className="border-t border-b border-light-gray-500 px-4 py-2 text-gray-700">
                                                 <div className="text-sm">

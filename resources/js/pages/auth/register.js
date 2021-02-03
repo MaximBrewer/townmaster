@@ -32,7 +32,7 @@ function Register () {
   };
 
   return (
-    <div className="flex justify-center items-center w-full flex-col py-4 min-h-screen bg-gray-200">
+    <div className="flex justify-center items-center w-full flex-col py-4 min-h-screen">
 
       <div className="p-8 flex flex-col items-center">
         <div className="text-2xl leading-loose">
@@ -55,7 +55,7 @@ function Register () {
               id="email"
               name="email"
               type="email"
-              className={`appearance-none border rounded w-full py-1 px-3 bg-gray-100 ${email.error ? 'border-red-500' : ''}`}
+              className={`appearance-none border rounded w-full py-1 px-3 ${email.error ? 'border-red-500' : ''}`}
               required
               {...email.bind} />
 
@@ -68,7 +68,7 @@ function Register () {
               type="password"
               id="password"
               name="password"
-              className={`appearance-none border rounded w-full py-1 px-3 bg-gray-100  ${password.error ? 'border-red-500' : ''}`}
+              className={`appearance-none border rounded w-full py-1 px-3  ${password.error ? 'border-red-500' : ''}`}
               minLength={6}
               required
               {...password.bind}/>
@@ -82,7 +82,7 @@ function Register () {
               type="password"
               id="password-confirmation"
               name="password_confirmation"
-              className={`appearance-none border rounded w-full py-1 px-3 bg-gray-100 ${password.error ? 'border-red-500' : ''}`}
+              className={`appearance-none border rounded w-full py-1 px-3 ${password.error ? 'border-red-500' : ''}`}
               required
               {...passwordConfirmation.bind}/>
           </div>
